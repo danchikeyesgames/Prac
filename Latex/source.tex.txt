@@ -1,0 +1,104 @@
+\documentclass[fontsize=13.2pt]{article}
+\usepackage{scrextend}
+\usepackage{cmap}
+%\usepackage{geometry}
+\usepackage{aligned-overset}
+\usepackage[T2A]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english,russian]{babel}
+\usepackage{ragged2e}
+\usepackage{amssymb}
+\setlength\parindent{4.5em}
+\linespread{0.3}
+\setcounter{page}{557}
+%\geometry{
+%    top=25mm
+%}
+\begin{document}
+Для дальнейшего полезно ввести множество
+\begin{center}
+$X_{\varepsilon}\stackrel{def}{=}\left\{ x \in X : \omega(f;x) \geq \varepsilon \right\}$,
+\end{center}
+где $\varepsilon > 0$ произвольно.\par
+Если $\eta < \varepsilon$, то ясно, что из неравенства $\omega(f;x) \geq \varepsilon$ следует неравенство $\omega(f;x) \geq \eta$, поэтому
+
+%\begin{flushright}
+%\raisebox{66pt}[-100pt][-100pt]{(23.40)} % 35 20 460
+%\end{flushright}
+\begin{center}
+$X_{\varepsilon}\subset X_{\eta}$. 
+\end{center}
+\textrm{\textbf{ЛЕММА 2.}} 
+\textit{Функция f непрерывна в точке $x \in X$ тогда и\linebreak только тогда, когда}
+\begin{center}
+$\omega(f;x) = 0$
+\end{center}
+\textrm{\textbf{СЛЕДСТВИЕ.}}
+\textit{Если $X_{0}$ - множество точек разрыва функ-\linebreakции f, то}
+\begin{center}
+    $X_{\cap} = \underset{n=1}{\stackrel{\infty}{\cup}} X_{1/n}.$
+\end{center}
+\textsc{Доказательство леммы.}
+\quadЕсли функция f непрерывна в точке $x_{0} \in X$, то для любого $\varepsilon > 0$ существует так, что для всех точек $x \in U_{\varepsilon}(x_{0}) \cap X$, выполняется неравенство $|f(x) - f(x_{0})| < \frac{\varepsilon}{2}$. Поэтому для любых точек x, $x^{\prime} \in U_{\varepsilon}(x_{0}) \cup X$ имеем\linebreak
+
+\begin{center}
+    $|f(x^\prime) - f(x)| \leq$
+\end{center}
+\begin{center}
+    $\leq|f(x^\prime) - f(x_{0})| + |f(x_{0}) - f(x)| < \frac{\varepsilon}{2} + \frac{\varepsilon}{2} = \varepsilon$
+\end{center}
+и,следовательно,
+\begin{center}
+    $|\omega(f;x_{0}) = \underset{U(x_{0})}{inf} \omega(f;U(x_{0}) \cap X) \leq \omega(f;\cap X) =$
+\end{center}
+\begin{center}
+    $= \underset{x,x^\prime \in U_{\varepsilon}(x_{0})_{\cap X}}{sup} |f(x^\prime) - f(x)| \underset{(23.44)}{\leq} \varepsilon$.
+\end{center}
+А так как $\varepsilon > 0$ произвольно, то это означает, что $\omega(f;x_{0} = 0)$.\par
+Наоборот, если $\omega(f;x_{0} = 0)$, то для любого $\varepsilon > 0$ существует такая окрестность $U(x_{0})$ точки $x_{0}$, что $\omega(f;U(x_{0}) \cap X) < \varepsilon$.\linebreak
+Тогда для любого $x \in U_{\varepsilon}(x_{0}) \cap X$ будем иметь
+\begin{center}
+    $|f(x) - f(x_{0})| \underset{(23.35)}{\leq} \omega(f;U(x_{0}) \cap X < \varepsilon$,
+\end{center}
+т.е. функция $f$ непрерывна в точке $x_{0}.\square$\par
+Докажем следствие. Если точка $x_{0} \in X$ является точкой разрыва функции $f$,то, в силу леммы 2, $\omega (f;x_{0}) > 0$, а поэто-\linebreak
+\begin{flushright}
+\raisebox{509pt}[0pt][0pt]{(23.40)}\\
+\raisebox{445pt}[0pt][0pt]{(23.41)}\\
+\raisebox{395pt}[0pt][0pt]{(23.42)}\\
+\raisebox{337pt}[0pt][0pt]{(23.43)}\\
+\raisebox{228pt}[0pt][0pt]{(23.44)} 
+\end{flushright}
+\newpage
+\noindentму $x_{0} \in X$ при $\varepsilon = \omega(f;x_{0})$. Отсюда следует, что множество$X_{0}$ точек разрыва функции $f$ представимо в виде
+\begin{center}
+    $X_{0} = \underset{\varepsilon > 0}{\cup} X_{\varepsilon}$.
+\end{center}
+\par
+Ясно, что $\underset{n=1}{\overset{\infty}{\cup}} X_{1/n} \subset \underset{\varepsilon > 0}{\cup} X_{\varepsilon}$, ибо каждое слагаемое ле-\linebreak 
+вой части включения является и слагаемым правой. С дру-\linebreak 
+гой стороны, если для данного $\varepsilon > 0$  выбрать так натуриль-\linebreak ное n, чтобы $1/n < \varepsilon$, то, в силу включения (23.41), будем\linebreak иметь $X_{\varepsilon} \subset X_{1/n}$ и, следовательно, $\underset{\varepsilon > 0 }{\cup} X_{\varepsilon}\subset \underset{ n }{\cup} X_{1/n}$. Таким\linebreak образом,
+\begin{center}
+    $\underset{n=1}{\overset{\infty}{\cup}} X_{1/n} = \underset{ \varepsilon > 0}{\cup} X_{\varepsilon} \underset{(23.45)}{=} X_{0}.\square$
+\end{center}
+\textbf{Определение 5.}
+\textit{Множество, состоящее из всех точек прикосновения данного множества, называется его замыка-\linebreakнием.}\par
+Для множества X его замыкание обозначается $\overline{X}$.
+\begin{flushright}
+\raisebox{218pt}[0pt][0pt]{(23.45)}
+\end{flushright}
+\par
+Поскольку всякая точка множества Х является его точ-\linebreakкой прикосновения (любая окрестность точки содержит саму точку, т.е. в данном случае содержит точку множества Х),\linebreak
+то $X \subset \overline{X}$.\\
+\textbf{Определение 6.}
+\textit{Множество, совподающее со своим замыканием называвется замкнутым.}\par
+Таким образом, если множество Х замкнуто, то $X = \overline{X}$.\\
+\textrm{\textbf{ЛЕММА 3.}} 
+\textit{При любом $\varepsilon > 0$ все точки прикосновения множества $X_{\varepsilon}$, содержащеся в Х, содержатся и в $X_{\varepsilon}$, т.е. ес-\linebreakли $x \in \overline{X_{\varepsilon}} \cap X$, то $x \in X_{\varepsilon}$.}\\
+\textrm{\textbf{CЛЕДСТВИЕ 1.}} 
+\textit{Если множество Х, на котором задана\linebreak функция f, замкнутое, то при любом $\varepsilon > 0$ множество $X_{\varepsilon}$\linebreak также замкнутое.}\\
+\textrm{\textbf{CЛЕДСТВИЕ 2.}} 
+\textit{Если функция f задана на отрезке Х =\linebreak =[a,b], то при любом $\varepsilon > 0$ множество $X_{\varepsilon}$ является огра-\linebreakниченным замкнутым множеством.}\\
+\textsc{Доказательство леммы.}
+\quad Пусть $\varepsilon > 0$ и $x_{0} \in \overline{X} \cap X$. Зададим произвольно $\eta > 0$. В силу определения (23.38) коле-\linebreak
+\end{document}
