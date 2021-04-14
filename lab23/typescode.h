@@ -10,12 +10,10 @@ void *add_tree(tree *parent, int child);
 
 tree *found_next_tree(tree *yet);
 
-void *destroy(tree *list, int data);
+tree *destroy(tree *list, int data);
 
 void *print_Tree(tree * p,int level);
 
 int counter(tree *troy);
-
-tree *found_parent(tree *poptree,int data, int child);
 
 tree *found(tree *poptree,int data);
