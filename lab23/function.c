@@ -41,7 +41,6 @@ tree *found_next_tree(tree *yet) {
 tree *destroy(tree *list, int data) {
     tree *parent = NULL;
     tree *child = list;
-
     while (child->data != data) {
         parent = child;
         if (child->data < data) {
@@ -71,44 +70,42 @@ tree *destroy(tree *list, int data) {
         if (list->data == data) {
             printf("remove %d finished\n", list->data);
             list = list->right;
-            list->right = NULL;
-            free(list->right);
+            free(child);
         } else if (parent->left == child) {
-            printf("remove %d finished\n", child->right->data);
+            printf("remove %d finished\n", parent->left->data);
             parent->left = child->right;
-            free(child->right);
+            free(child);
         } else {
-            printf("remove %d finished\n", child->right->data);
+            printf("remove %d finished\n", parent->right->data);
             parent->right = child->right;
-            free(child->right);
+            free(child);
         }
     } else if (child->right == NULL && child->left != NULL) {
         if (list->data == data) {
             list = list->left;
             printf("remove %d finished\n", list->data);
-            list->left = NULL;
-            free(list->left);
+            free(child);
         } else if (parent->left == child) {
-            printf("remove %d finished\n", child->left);
+            printf("remove %d finished\n", child->data);
             parent->left = child->left;
-            free(child->left);
+            free(child);
         } else {
-             printf("remove %d finished\n", child->left);
+            printf("remove %d finished\n", child->data);
             parent->right = child->left;
-            free(child->left);
+            free(child);
         }
     //4
     } else if (child->left != NULL && child->right != NULL) {
         if (list->data == data) {
             tree *next = found_next_tree(list);
             int rose = next->data;
-            printf("%d change %d\nremove finished\n",rose, child->data);
+            printf("%d change %d\n",rose, child->data);
             destroy(list,next->data);
             list->data = rose;
         } else {
             tree *next = found_next_tree(child);
             int rose = next->data;
-            printf("%d change %d\nremove finished\n",rose, child->data);
+            printf("%d change %d\n",rose, child->data);
             destroy(list,next->data);
             child->data = rose;
         }
