@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 #define STR 16
 #define TECH 16
 
@@ -39,67 +40,99 @@ data number[TECH] = {
     {"Kirovsky", "A.S.", 'M', 777, 0, 5, 5, 5, 0}
 };
 
-int main (int argc, char const *argv[]) {
+int main (int argc, char const *argv[])
+{
 
     int count = 0;
+    _Bool isWord = 0;
+    char ch;
 
-    if (argv[1][0] == '-' && argv[1][1] == 'w') {
+    if (argv[1][0] == '-' && argv[1][1] == 'w' && argv[1][2] == '\0') {
         if (argc != 2) {
             fprintf(stderr, "%s\n", "You have many arguments!");
             exit(1);
         }
 
         FILE *f_ile = fopen("School.bin", "wb");
-
         for (int i = 0; i < TECH; i++) {
             data_write(f_ile, &number[i]);
         }
-
         fclose(f_ile);
 
-    } else if (argv[1][0] == '-' && argv[1][1] == 'f') {
-        if (argc != 2) {
+    } else if (argv[1][0] == '-' && argv[1][1] == 'f' && argv[1][2] == '\0') {
+            if (argc != 2) {
             fprintf(stderr, "%s\n", "You have many arguments!");
             exit(1);
         }
 
         FILE *f_ile = fopen("School.bin", "rb");
-
         data saved[TECH];
-
         for (int i = 0; i < TECH; i++) {
             data_read(f_ile, &saved[i]);
         }
-
         fclose(f_ile);
+
+
         printf("Фамилия \tИнициалы \tПол \t№ школы \tМедаль \tоценка по математике \tоценка по Русскому \tоценка по Информатике \tЗачёт по Сочинению\n");
         for (int i = 0; i < TECH; i++) {
-            fprintf(stdout, "%-15.10s %6s %11c %10d %13d %14d %22d %25d %20d\n", saved[i].fam , saved[i].inith, saved[i].male, saved[i].numschool, saved[i].medl,
-            saved[i].mark_math, saved[i].mark_Ru, saved[i].mark_inf, saved[i].zach);
+            fprintf(stdout, "%-15.10s %6s %11c %10d ", saved[i].fam , saved[i].inith, saved[i].male, saved[i].numschool);
+            if (saved[i].medl == 1)
+                printf("%13c ", '+');
+            else
+                printf("%13c ", '-');
+            fprintf(stdout, "%14d %22d %25d ", saved[i].mark_math, saved[i].mark_Ru, saved[i].mark_inf);
+            if (saved[i].zach == 1)
+                printf("%20s", "+\n");
+            else
+                printf("%20s", "-\n");
         }
-    } else if (argv[1][0] == '-' && argv[1][1] == 'p') {
+
+    } else if (argv[1][0] == '-' && argv[1][1] == 'p' && argv[1][2] == '\0') {
         if (argc != 3) {
             fprintf(stderr, "%s\n", "You have many arguments!");
             exit(1);
         }
+        // **********************************************
         int in = -1;
+        while (argv[2][++in] != '\0') {
+            ch = tolower(argv[2][in]);
+            if (isalpha(ch) || ispunct(ch))
+                isWord = 1;
+        }
+        if (isWord) {
+            fprintf(stderr, "%s\n", "You wrote not number after -p !");
+            exit(1);
+        }
+        // ***********************************************
+        
+        
+        in = -1;
         while (argv[2][++in] != '\0') {
             count = count * 10 + argv[2][in] - '0';
         }
+        
         FILE *f_ile = fopen("School.bin", "rb");
-
         data saved[TECH];
-
         for (int i = 0; i < TECH; i++) {
             data_read(f_ile, &saved[i]);
         }
-
         fclose(f_ile);
 
+
+        printf("Фамилия \tИнициалы \tПол \t№ школы \tМедаль \tоценка по математике \tоценка по Русскому \tоценка по Информатике \tЗачёт по Сочинению\n");
         for (int i = 0; i < TECH; i++) {
+
             if (saved[i].mark_math + saved[i].mark_Ru + saved[i].mark_inf == count) {
-                fprintf(stdout, "%-15.10s %6s %11c %10d %13d %14d %22d %25d %20d\n", saved[i].fam , saved[i].inith, saved[i].male, saved[i].numschool, saved[i].medl,
-                saved[i].mark_math, saved[i].mark_Ru, saved[i].mark_inf, saved[i].zach);
+                fprintf(stdout, "%-15.10s %6s %11c %10d ", saved[i].fam , saved[i].inith, saved[i].male, saved[i].numschool);
+                if (saved[i].medl == 1)
+                    printf("%13c ", '+');
+                else
+                    printf("%13c ", '-');
+                fprintf(stdout, "%14d %22d %25d ", saved[i].mark_math, saved[i].mark_Ru, saved[i].mark_inf);
+                if (saved[i].zach == 1)
+                    printf("%20s", "+\n");
+                 else
+                    printf("%20s", "-\n");
             }
         }
     } else {
