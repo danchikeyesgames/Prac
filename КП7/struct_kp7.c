@@ -65,10 +65,12 @@ int main(void)
                 fclose(myfile);
             //}
             vector_print(vec2, vector_int2, n2, m2);
+            vector_multiplex(vec, vector_int, vec2, vector_int2, vec3, vector_int3, n, n2, m, m2);
+
         } else if (c == '0')
             break;
         else 
-            printf("Incorrect format!");
+            printf("Incorrect format!\n");
         printf("(1) --> Enter Martix in Terminal\n(2) --> read text file\n(3) --> print\n(4) --> * with read file\n(0) --> exit\n");
     }
     
@@ -118,8 +120,9 @@ void vector_print(vector *num_vec_1, vector *num_vec_2, int index, int stolb) {
             } else
                 printf("0 ");
         }
-        printf("\n");
+    printf("\n");
     }
+    printf("\n");
 }
 
 void vector_saved_file(vector *num_vec_1, vector *num_vec_2, int index, int stolb, FILE * file) {
@@ -137,16 +140,45 @@ void vector_saved_file(vector *num_vec_1, vector *num_vec_2, int index, int stol
 }
 
 void vector_multiplex(vector *num1, vector *integer1, vector *num2, vector *integer2, vector *num3, vector *integer3, int n1, int n2, int m1, int m2) {
-    int n3, m3, i, j, n = 0;
+    int n3, m3, i, j, n = 0, k = 0, sum = 0, p = 0;
     n3 = n1;
     m3 = m2;
+    int number1 , number2;
     num3 = vector_created(n3, m3);
     integer3 = vector_created(n3, m3);
-
     for (i = 1; i <= n3; i++) {
-        for (j = 0; j < m1 * i; j++) {
-            
+        for (j = 1; j <= m3; j++) {
+            for (n = m1 * (i - 1); n < m1 * i; n++) {
+                for (k = 0; k < m1 * n1; k++) {
+                    if (num1->array[k] == n) {
+                        number1 = integer1->array[k];
+                        break;
+                    }  else {
+                        number1 = 0;
+                    } 
+                }
+
+                for (k = 0; k < m2 * n2; k++) {
+                    if (num2->array[k] == (n - m1 * (i - 1)) * m2 + j - 1) {
+                        number2 = integer2->array[k];
+                        break;
+                    } else {
+                        number2 = 0;
+                    }
+                }
+
+                sum = sum + number1 * number2;
+
+            }
+
+            if (sum != 0) {
+                num3->array[p] = (i - 1) * m3 + j - 1;
+                integer3->array[p] = sum;
+                p++;
+            }
+
+            sum = 0;
         }
     }
-
+    vector_print(num3, integer3, n3, m3);
 }
