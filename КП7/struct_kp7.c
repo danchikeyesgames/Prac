@@ -11,7 +11,8 @@ int main(void)
 
     FILE *myfile;
 
-    printf("(1) --> Enter Martix in Terminal\n(2) --> read text file\n(3) --> print\n(4) --> * with read file\n(0) --> exit\n");
+    printf("(1) --> Enter Martix in Terminal\n(2) --> read text file\n(3) --> print\n(4) --> * with read file\n"
+        "(5) --> * with terminal matrix\n(0) --> exit\n");
 
     while ((c = getchar()) != EOF) {
         if (c == '\n')
@@ -37,41 +38,70 @@ int main(void)
             vector_int = vector_created(n, m);
             vector_saved_file(vec, vector_int, n, m, myfile);
             fclose(myfile);
-        } else if (c == '3')
-            vector_print(vec, vector_int, n, m);
+        } else if (c == '3')            
+            if (!vec)
+                printf("First Matrix not found!\n");
+            else
+                vector_print(vec, vector_int, n, m);
         else if (c == '4') {
             printf("Enter new Matrix:\n");
-            
-            // if (c == '1') {
-            //     scanf("%d", &n2);
-            //     scanf("%d", &m2);
-            //     if (vec2)
-            //         free(vec2);
-            //     if (vector_int2)
-            //         free(vector_int2);
-            //     vec2 = vector_created(n2, m2);
-            //     vector_int2 = vector_created(n2, m2);
-            //     vector_saved(vec2, vector_int2, n2, m2);
-            // } else if (c == '2') {
-                myfile = fopen("Struct.txt", "r");
-                fscanf(myfile, "%d%d", &n2, &m2);
-                if (vec2)
-                    free(vec2);
-                if (vector_int2)
-                    free(vector_int2);
-                vec2 = vector_created(n2, m2);
-                vector_int2 = vector_created(n2, m2);
-                vector_saved_file(vec2, vector_int2, n2, m2, myfile);
-                fclose(myfile);
-            //}
+            if (!vec) {
+                printf("First Matrix not found\n");
+                printf("(1) --> Enter Martix in Terminal\n(2) --> read text file\n(3) --> print\n(4) --> * with read file\n"
+                    "(5) --> * with terminal matrix\n(0) --> exit\n");
+                continue;
+            }
+            myfile = fopen("Struct.txt", "r");
+            fscanf(myfile, "%d%d", &n2, &m2);
+            if (vec2)
+                free(vec2);
+            if (vector_int2)
+                free(vector_int2);
+            vec2 = vector_created(n2, m2);
+            vector_int2 = vector_created(n2, m2);
+            vector_saved_file(vec2, vector_int2, n2, m2, myfile);
+            fclose(myfile);
             vector_print(vec2, vector_int2, n2, m2);
+            if (m != n2) {
+                printf("Second Matrix can't multiplex\n");
+                printf("Pls, Entered new Matrix in File\n");
+                free(vec2);
+                free(vector_int2);
+            } else
+            vector_multiplex(vec, vector_int, vec2, vector_int2, vec3, vector_int3, n, n2, m, m2);
+
+        } else if (c == '5') {
+            printf("Enter new Matrix:\n");
+            if (!vec) {
+                printf("First Matrix not found\n");
+                printf("(1) --> Enter Martix in Terminal\n(2) --> read text file\n(3) --> print\n(4) --> * with read file\n"
+                    "(5) --> * with terminal matrix\n(0) --> exit\n");
+                continue;
+            }
+            scanf("%d", &n2);
+            scanf("%d", &m2);
+            if (vec2)
+                free(vec2);
+            if (vector_int2)
+                free(vector_int2);
+            vec2 = vector_created(n2, m2);
+            vector_int2 = vector_created(n2, m2);
+            vector_saved(vec2, vector_int2, n2, m2);
+            vector_print(vec2, vector_int2, n2, m2);
+            if (m != n2) {
+                printf("Second Matrix can't multiplex\n");
+                printf("Pls, Entered new Matrix\n");
+                free(vec2);
+                free(vector_int2);
+            } else
             vector_multiplex(vec, vector_int, vec2, vector_int2, vec3, vector_int3, n, n2, m, m2);
 
         } else if (c == '0')
             break;
         else 
             printf("Incorrect format!\n");
-        printf("(1) --> Enter Martix in Terminal\n(2) --> read text file\n(3) --> print\n(4) --> * with read file\n(0) --> exit\n");
+        printf("(1) --> Enter Martix in Terminal\n(2) --> read text file\n(3) --> print\n(4) --> * with read file\n"
+            "(5) --> * with terminal matrix\n(0) --> exit\n");
     }
     
 
@@ -104,14 +134,17 @@ void vector_saved(vector *num_vec_1, vector *num_vec_2, int index, int stolb) {
 
 void vector_print(vector *num_vec_1, vector *num_vec_2, int index, int stolb) {
     int i, j, n;
+    printf("---------------------------------------\n");
     for (i = 0; i < num_vec_1->count; i++) {
-        printf("%d ", num_vec_1->array[i]);
+        printf("%3d|", num_vec_1->array[i]);
     }
     printf("\n");
+    printf("---------------------------------------\n");
     for (i = 0; i < num_vec_2->count; i++) {
-        printf("%d ", num_vec_2->array[i]);
+        printf("%3d|", num_vec_2->array[i]);
     }
     printf("\n");
+    printf("---------------------------------------\n");
     for (i = 1, n = 0; i <= index; i++) {
         for (j = 1; j <= stolb; j++) {
             if (num_vec_1->array[n] == (i - 1) * stolb + j - 1) {
@@ -122,7 +155,7 @@ void vector_print(vector *num_vec_1, vector *num_vec_2, int index, int stolb) {
         }
     printf("\n");
     }
-    printf("\n");
+    printf("+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
 }
 
 void vector_saved_file(vector *num_vec_1, vector *num_vec_2, int index, int stolb, FILE * file) {
@@ -180,5 +213,6 @@ void vector_multiplex(vector *num1, vector *integer1, vector *num2, vector *inte
             sum = 0;
         }
     }
+    printf("New Matrix:\n");
     vector_print(num3, integer3, n3, m3);
 }
