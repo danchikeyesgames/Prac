@@ -13,7 +13,7 @@ void add(list* l, list_node* ll, char c) {
         list_node* node = (list_node*) malloc(sizeof(list_node));
         node->data = c;
         
-        if (!(l->head)) {
+        if (!ll) {
             
             list_node* tail;
             tail = (list_node*) malloc(sizeof(list_node));
@@ -32,6 +32,28 @@ void add(list* l, list_node* ll, char c) {
 }
 
 void delete(list* l, list_node* ll) {
+    list_node* deleted = ll->prev;
     
+    if (!ll->prev) {
+        l->head = ll->next;
+        ll->next->prev = NULL;
+        free(ll);
+    } else {
+        ll->prev->next = ll->next;
+        ll->next->prev = ll->prev;
+        free(ll);
+    }
+
 }
 
+void print(list* l) {
+
+    list_node* ll = l->head;
+    if (ll) {
+        while (ll->next) {
+            printf("%d --> ", ll->data);
+            ll = ll->next;
+        }
+        printf("\n");
+    }
+}
