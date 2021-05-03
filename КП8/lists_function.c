@@ -54,6 +54,7 @@ void print(list* l) {
             printf("%d --> ", ll->data);
             ll = ll->next;
         }
+        printf("NULL");
         printf("\n");
     }
 }

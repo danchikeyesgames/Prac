@@ -24,3 +24,20 @@ void iterator_back(iterator* it) {
 list_node* iteratorGet(iterator* it) {
     return it->node;
 }
+
+void iterator_print(iterator* it, list* l) {
+    //printf("%-5c", '^');
+    list_node* ll = l->head;
+    int count = 0;
+    while (ll != it->node) {
+        count++;
+        ll = ll->next;
+    }
+    printf("%*c\n", count*7 - count + 1, '^');
+}
+
+iterator* update(list_node* ll) {
+    iterator* it;
+    it->node = ll;
+    return it;
+}
