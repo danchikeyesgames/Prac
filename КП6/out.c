@@ -2,7 +2,7 @@
 #include <stdlib.h>
 #include <ctype.h>
 #define STR 16
-#define TECH 16
+#define TECH 100
 
 typedef struct data_in {
     char fam[STR];
@@ -19,9 +19,9 @@ typedef struct data_in {
 
 void data_read(FILE *f, data *rec);
 void data_write(FILE *f, data *rec);
-int count(char num[STR][STR]);
+void  add(const char name[40]);
 
-data number[TECH] = {
+data number[16] = {
     {"Ivanov", "V.E.", 'M', 42, 1, 5, 5, 5, 0},
     {"Gulkin", "L.S.", 'M', 125, 0, 5, 3, 5, 1},
     {"Zlotkovsky", "A.M.", 'M', 10, 1, 5, 5, 5, 1},
@@ -46,7 +46,7 @@ int main (int argc, char const *argv[])
     int count = 0;
     _Bool isWord = 0;
     char ch;
-
+    int k = 0;
     if (argv[1][0] == '-' && argv[1][1] == 'w' && argv[1][2] == '\0') {
         if (argc != 2) {
             fprintf(stderr, "%s\n", "You have many arguments!");
@@ -54,27 +54,48 @@ int main (int argc, char const *argv[])
         }
 
         FILE *f_ile = fopen("School.bin", "wb");
-        for (int i = 0; i < TECH; i++) {
+        for (int i = 0; i < 16; i++) {
             data_write(f_ile, &number[i]);
         }
         fclose(f_ile);
 
     } else if (argv[1][0] == '-' && argv[1][1] == 'f' && argv[1][2] == '\0') {
-            if (argc != 2) {
+        
+        if (argc != 3) {
             fprintf(stderr, "%s\n", "You have many arguments!");
             exit(1);
         }
 
-        FILE *f_ile = fopen("School.bin", "rb");
-        data saved[TECH];
-        for (int i = 0; i < TECH; i++) {
-            data_read(f_ile, &saved[i]);
+        FILE *f_ile = fopen(argv[2], "rb");
+
+        if (!f_ile) {
+            fprintf(stderr, "%s\n", "Not found filename");
+            exit(1);
         }
+
+        data saved[TECH];
+        
+        while (
+            fread(&(saved[k].fam), sizeof(saved->fam[0]), STR, f_ile) != 0 &&
+            fread(&(saved[k].inith), sizeof(saved->inith[0]), STR, f_ile) != 0 &&
+            fread(&(saved[k].male), sizeof(saved->male), 1, f_ile) != 0 &&
+            fread(&(saved[k].numschool), sizeof(saved->numschool), 1, f_ile) != 0 &&
+            fread(&(saved[k].medl), sizeof(saved->medl), 1, f_ile) != 0 &&
+            fread(&(saved[k].mark_math), sizeof(saved->mark_math), 1, f_ile) != 0 &&
+            fread(&(saved[k].mark_Ru), sizeof(saved->mark_Ru), 1, f_ile) != 0 &&
+            fread(&(saved[k].mark_inf), sizeof(saved->mark_inf), 1, f_ile) != 0 &&
+            fread(&(saved[k].zach), sizeof(saved->zach), 1, f_ile) != 0
+        ) 
+        {
+
+            k++;
+
+        }
+        printf("%d\n", k);
         fclose(f_ile);
 
-
         printf("Фамилия \tИнициалы \tПол \t№ школы \tМедаль \tоценка по математике \tоценка по Русскому \tоценка по Информатике \tЗачёт по Сочинению\n");
-        for (int i = 0; i < TECH; i++) {
+        for (int i = 0; i < k; i++) {
             fprintf(stdout, "%-15.10s %6s %11c %10d ", saved[i].fam , saved[i].inith, saved[i].male, saved[i].numschool);
             if (saved[i].medl == 1)
                 printf("%13c ", '+');
@@ -88,7 +109,7 @@ int main (int argc, char const *argv[])
         }
 
     } else if (argv[1][0] == '-' && argv[1][1] == 'p' && argv[1][2] == '\0') {
-        if (argc != 3) {
+        if (argc != 4) {
             fprintf(stderr, "%s\n", "You have many arguments!");
             exit(1);
         }
@@ -111,16 +132,31 @@ int main (int argc, char const *argv[])
             count = count * 10 + argv[2][in] - '0';
         }
         
-        FILE *f_ile = fopen("School.bin", "rb");
+        FILE *f_ile = fopen(argv[3], "rb");
         data saved[TECH];
-        for (int i = 0; i < TECH; i++) {
-            data_read(f_ile, &saved[i]);
+        k = 0;
+        while (
+            fread(&(saved[k].fam), sizeof(saved->fam[0]), STR, f_ile) != 0 &&
+            fread(&(saved[k].inith), sizeof(saved->inith[0]), STR, f_ile) != 0 &&
+            fread(&(saved[k].male), sizeof(saved->male), 1, f_ile) != 0 &&
+            fread(&(saved[k].numschool), sizeof(saved->numschool), 1, f_ile) != 0 &&
+            fread(&(saved[k].medl), sizeof(saved->medl), 1, f_ile) != 0 &&
+            fread(&(saved[k].mark_math), sizeof(saved->mark_math), 1, f_ile) != 0 &&
+            fread(&(saved[k].mark_Ru), sizeof(saved->mark_Ru), 1, f_ile) != 0 &&
+            fread(&(saved[k].mark_inf), sizeof(saved->mark_inf), 1, f_ile) != 0 &&
+            fread(&(saved[k].zach), sizeof(saved->zach), 1, f_ile) != 0
+        ) 
+        {
+
+            k++;
+
         }
+
         fclose(f_ile);
 
 
         printf("Фамилия \tИнициалы \tПол \t№ школы \tМедаль \tоценка по математике \tоценка по Русскому \tоценка по Информатике \tЗачёт по Сочинению\n");
-        for (int i = 0; i < TECH; i++) {
+        for (int i = 0; i < k; i++) {
 
             if (saved[i].mark_math + saved[i].mark_Ru + saved[i].mark_inf == count) {
                 fprintf(stdout, "%-15.10s %6s %11c %10d ", saved[i].fam , saved[i].inith, saved[i].male, saved[i].numschool);
@@ -135,10 +171,15 @@ int main (int argc, char const *argv[])
                     printf("%20s", "-\n");
             }
         }
+    } else if (argv[1][0] == '-' && argv[1][1] == 'd' && argv[1][2] == '\0') { 
+        
+        add(argv[2]);
+
     } else {
         printf("Error Format\n");
     }
 
+    return 0;
 }
 
 void data_write(FILE *f, data *rec) {
@@ -163,4 +204,30 @@ void data_read(FILE *f, data *rec) {
     fread(&(rec->mark_Ru), sizeof(rec->mark_Ru), 1, f);
     fread(&(rec->mark_inf), sizeof(rec->mark_inf), 1, f);
     fread(&(rec->zach), sizeof(rec->zach), 1, f);
+}
+
+void add(const char name[40])
+{
+    int count;
+    FILE* new_file;
+    data new_data;
+    new_file = fopen(name, "rb");
+
+    new_file = fopen(name, "a");
+    printf("Enter how many records do you want to add\n");
+    scanf("%d", &count);
+    for (int i = 0; i < count; i++) {
+
+        scanf("%s", new_data.fam);
+        scanf("%s", new_data.inith);
+        scanf("%s", &new_data.male); 
+        scanf("%d", &new_data.numschool);
+        scanf("%d", &new_data.medl);
+        scanf("%d", &new_data.mark_math);
+        scanf("%d", &new_data.mark_Ru);
+        scanf("%d", &new_data.mark_inf);
+        scanf("%d", &new_data.zach);
+        data_write(new_file, &new_data);
+    }
+    fclose(new_file);
 }
