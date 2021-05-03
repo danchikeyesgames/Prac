@@ -65,8 +65,6 @@ int main(void)
             if (m != n2) {
                 printf("Second Matrix can't multiplex\n");
                 printf("Pls, Entered new Matrix in File\n");
-                free(vec2);
-                free(vector_int2);
             } else
             vector_multiplex(vec, vector_int, vec2, vector_int2, vec3, vector_int3, n, n2, m, m2);
 
@@ -91,8 +89,6 @@ int main(void)
             if (m != n2) {
                 printf("Second Matrix can't multiplex\n");
                 printf("Pls, Entered new Matrix\n");
-                free(vec2);
-                free(vector_int2);
             } else
             vector_multiplex(vec, vector_int, vec2, vector_int2, vec3, vector_int3, n, n2, m, m2);
 
@@ -155,7 +151,7 @@ void vector_print(vector *num_vec_1, vector *num_vec_2, int index, int stolb) {
         }
     printf("\n");
     }
-    printf("+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=+=\n");
+    printf("======================================\n");
 }
 
 void vector_saved_file(vector *num_vec_1, vector *num_vec_2, int index, int stolb, FILE * file) {
