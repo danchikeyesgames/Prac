@@ -18,14 +18,18 @@ void add(list* l, list_node* ll, char c) {
             list_node* tail;
             tail = (list_node*) malloc(sizeof(list_node));
             tail->next = NULL;
+            tail->prev = NULL;
             l->head = node;
             node->prev = NULL;
             node->next = tail;
 
-        } else {
+        } else if (ll->next == NULL)
+        printf("Can't add lists. Pls, Delete NULL\n");
+        else {
 
             node->prev = ll;
             node->next = ll->next;
+            ll->next->prev = node;
             ll->next = node;
 
         }
@@ -33,14 +37,17 @@ void add(list* l, list_node* ll, char c) {
 
 void delete(list* l, list_node* ll) {
     list_node* deleted = ll->prev;
-    
-    if (!ll->prev) {
+    list_node* nexus = ll->next;
+    if (ll->prev == NULL && ll->next == NULL) {
+        l->head = NULL;
+        free(ll);
+    } else if (!ll->prev) {
         l->head = ll->next;
         ll->next->prev = NULL;
         free(ll);
     } else {
-        ll->prev->next = ll->next;
-        ll->next->prev = ll->prev;
+        deleted->next = ll->next;
+        nexus->prev = deleted;
         free(ll);
     }
 

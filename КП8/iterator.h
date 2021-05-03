@@ -13,3 +13,5 @@ void iterator_back(iterator* it);
 list_node* iteratorGet(iterator* it);
 void iterator_print(iterator* it, list* l);
 iterator* update (list_node* ll);
+int iterator_count(list* l);
+

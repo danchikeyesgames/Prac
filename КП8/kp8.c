@@ -15,26 +15,43 @@ int main(void)
     it = created(li);
 
     while (strncmp(string, "0",2) != 0 && strncmp(string, "exit", 5) != 0) {
-        if (node)
+        if (node) {
             it = update(node);
+            printf("\n=========================\ncounts:%d\n", iterator_count(li));
+        }
         print(li);
+
         if (node)
             iterator_print(it, li);
         scanf("%s", string);
         if (strncmp(string, "1",2) == 0 || strncmp(string, "add", 4) == 0) {
-            
+
             scanf("%d", &sym);
             add(li, node, sym);
             if (!node)
                 it = created(li);
 
-        } else if (strncmp(string, "right",6) == 0 || strncmp(string, "2", 2) == 0)
+        } else if ((strncmp(string, "right",6) == 0 || strncmp(string, "2", 2) == 0) && node)
             iterator_next(it);
-        else if (strncmp(string, "left",5) == 0 || strncmp(string, "3", 2) == 0)
+        else if ((strncmp(string, "left",5) == 0 || strncmp(string, "3", 2) == 0) && node)
             iterator_back(it);
-        
+        else if (strncmp(string, "delete",7) == 0 || strncmp(string, "4", 2) == 0) {
+            if (node) {
+                if (node->prev)
+                    it->node = it->node->prev;
+                else if (node->next)
+                    it->node = it->node->next;
+                else if (node->next == NULL && node->prev == NULL)
+                    it->node = NULL; 
+            
+                delete(li, node);
+            } else
+            printf("Not dound list, whitch can delete!\n");
+
+        }
+
         node = iteratorGet(it);
-        
+
     }
 
 

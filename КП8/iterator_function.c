@@ -8,7 +8,9 @@ iterator* created(list* l) {
 }
 
 void iterator_next(iterator* it) {
-    if (it->node->next->next)
+    if (!it->node->next)
+        printf("it's NULL!\n");
+    else if (it->node->next->next)
         it->node = it->node->next;
     else
         printf("This last\n");
@@ -40,4 +42,14 @@ iterator* update(list_node* ll) {
     iterator* it;
     it->node = ll;
     return it;
+}
+
+int iterator_count(list* l) {
+    list_node* ll = l->head;
+    int count = 0;
+    while (ll->next != NULL) {
+        count++;
+        ll = ll->next;
+    }
+    return count;
 }
