@@ -8,7 +8,7 @@ struct _lists {
 };
 
 struct _list_node {
-    int data;
+    char data;
     list_node* prev;
     list_node* next;
 };
@@ -17,4 +17,5 @@ list* create();
 void add(list* l, list_node* ll, char c);
 void delete(list* l, list_node* ll);
 void print(list* l);
+int foo(list* l, char data);
 

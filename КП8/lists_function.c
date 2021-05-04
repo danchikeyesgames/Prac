@@ -58,10 +58,37 @@ void print(list* l) {
     list_node* ll = l->head;
     if (ll) {
         while (ll->next) {
-            printf("%d --> ", ll->data);
+            printf("%c --> ", ll->data);
             ll = ll->next;
         }
         printf("NULL");
         printf("\n");
     }
+}
+
+int foo(list* l, char data) {
+    _Bool isTrue = 0; 
+    list_node* detected = l->head;
+
+    while (detected->next != NULL) {
+        if (detected->data == data) {
+            isTrue = 1;
+            break;
+        }
+        detected = detected->next;
+    }
+    
+    detected = l->head;
+    
+    if (isTrue) {
+        
+        while (detected->next != NULL) {
+            delete(l,detected);
+            detected = detected->next;
+        }
+        printf(">>>>>>>>>>CLEAR<<<<<<<<<\n");
+        return 1;
+    } else
+        printf("Not found\n");
+    return 0;
 }
