@@ -22,22 +22,22 @@ void data_write(FILE *f, data *rec);
 void  add(const char name[40]);
 
 data number[16] = {
-    {"Ivanov", "V.E.", 'M', 42, 1, 5, 5, 5, 0},
-    {"Gulkin", "L.S.", 'M', 125, 0, 5, 3, 5, 1},
-    {"Zlotkovsky", "A.M.", 'M', 10, 1, 5, 5, 5, 1},
-    {"Najibov", "K.T.", 'M', 10, 1, 5, 5, 5, 1},
+    {"Ivanov", "V.E.", 'M', 42, 1, 100, 100, 100, 0},
+    {"Gulkin", "L.S.", 'M', 125, 0, 95, 100, 75, 1},
+    {"Zlotkovsky", "A.M.", 'M', 10, 1, 63, 50, 100, 1},
+    {"Najibov", "K.T.", 'M', 10, 1, 55, 51, 65, 1},
     {"Musk", "I.K.", 'M', 42, 0, 4, 4, 4, 1},
-    {"Alexandrov", "K.V.", 'M', 10, 0, 3, 4, 4, 0},
-    {"Rzhevskay", "E.S.", 'F', 10, 1, 5, 5, 5, 1},
-    {"Lobanova", "V.D.", 'F', 42, 1, 5, 5, 5, 0},
-    {"Lisi4kina", "L.A.", 'F', 125, 0, 4, 4, 4, 0},
-    {"Varnava", "E.R.", 'F', 125, 0, 3, 3, 3, 1},
-    {"Jhons", "C.J.", 'M', 35, 0, 3, 4, 3, 1},
-    {"Simonova", "D.P.", 'F', 35, 0, 4, 3, 3, 0},
-    {"Moskovskay", "I.V.", 'F', 10, 0, 3, 3, 3, 1},
-    {"Esenin", "S.A.", 'M', 10, 1, 5, 5, 5, 1},
-    {"Ostin", "V.E.", 'M', 35, 0, 5, 5, 4, 1},
-    {"Kirovsky", "A.S.", 'M', 777, 0, 5, 5, 5, 0}
+    {"Alexandrov", "K.V.", 'M', 10, 0, 97, 97, 97, 0},
+    {"Rzhevskay", "E.S.", 'F', 10, 1, 77, 77, 77, 1},
+    {"Lobanova", "V.D.", 'F', 42, 1, 62, 34, 56, 0},
+    {"Lisi4kina", "L.A.", 'F', 125, 0, 85, 80, 84, 0},
+    {"Varnava", "E.R.", 'F', 125, 0, 92, 43, 37, 1},
+    {"Jhons", "C.J.", 'M', 35, 0, 63, 44, 63, 1},
+    {"Simonova", "D.P.", 'F', 35, 0, 44, 73, 93, 0},
+    {"Moskovskay", "I.V.", 'F', 10, 0, 93, 93, 93, 1},
+    {"Esenin", "S.A.", 'M', 10, 1, 100, 100, 100, 1},
+    {"Ostin", "V.E.", 'M', 35, 0, 85, 95, 74, 1},
+    {"Kirovsky", "A.S.", 'M', 777, 0, 55, 25, 35, 0}
 };
 
 int main (int argc, char const *argv[])
@@ -94,7 +94,7 @@ int main (int argc, char const *argv[])
         printf("%d\n", k);
         fclose(f_ile);
 
-        printf("Фамилия \tИнициалы \tПол \t№ школы \tМедаль \tоценка по математике \tоценка по Русскому \tоценка по Информатике \tЗачёт по Сочинению\n");
+        printf("Фамилия \tИнициалы \tПол \t№ школы \tМедаль \tБаллы по математике \tБаллы по Русскому \tБаллы по Информатике \tЗачёт по Сочинению\n");
         for (int i = 0; i < k; i++) {
             fprintf(stdout, "%-15.10s %6s %11c %10d ", saved[i].fam , saved[i].inith, saved[i].male, saved[i].numschool);
             if (saved[i].medl == 1)
@@ -155,7 +155,7 @@ int main (int argc, char const *argv[])
         fclose(f_ile);
 
 
-        printf("Фамилия \tИнициалы \tПол \t№ школы \tМедаль \tоценка по математике \tоценка по Русскому \tоценка по Информатике \tЗачёт по Сочинению\n");
+        printf("Фамилия \tИнициалы \tПол \t№ школы \tМедаль \tБаллы по математике \tБаллы по Русскому \tБаллы по Информатике \tЗачёт по Сочинению\n");
         for (int i = 0; i < k; i++) {
 
             if (saved[i].mark_math + saved[i].mark_Ru + saved[i].mark_inf == count) {
