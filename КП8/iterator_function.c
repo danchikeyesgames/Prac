@@ -53,3 +53,12 @@ int iterator_count(list* l) {
     }
     return count;
 }
+
+void iteratorSet(list_node* l, iterator* it) {
+    it->node = l;
+}
+
+void iterator_next_NULL(iterator* it) {
+    if (it->node->next)
+        it->node = it->node->next;
+}

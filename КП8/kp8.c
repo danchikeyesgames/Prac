@@ -10,6 +10,7 @@ int main(void)
     list_node* node = NULL;
     char string[10]; char sym = 0;
     iterator* it = NULL;
+    iterator* tmp = NULL;
     
     li = create();
     it = created(li);
@@ -37,12 +38,17 @@ int main(void)
             iterator_back(it);
         else if (strncmp(string, "delete",7) == 0 || strncmp(string, "4", 2) == 0) {
             if (node) {
-                if (node->prev)
-                    it->node = it->node->prev;
-                else if (node->next)
-                    it->node = it->node->next;
-                else if (node->next == NULL && node->prev == NULL)
-                    it->node = NULL; 
+                if (node->prev) {
+                    tmp = it;
+                    iterator_back(tmp);
+                    iteratorSet(iteratorGet(tmp),it);
+                }
+                else if (node->next) {
+                    tmp = it;
+                    iterator_next_NULL(tmp);
+                    iteratorSet(iteratorGet(tmp),it);
+                } else if (node->next == NULL && node->prev == NULL)
+                    iteratorSet(NULL,it);
             
                 delete(li, node);
             } else printf("Not dound list, whitch can delete!\n");
@@ -50,9 +56,9 @@ int main(void)
         } else if ((strncmp(string, "function",7) == 0 || strncmp(string, "5", 2) == 0) && node) {
                 scanf("\n%c", &sym);
                 if (foo(li, sym)) {
-                    it->node = li->head;
+                    iteratorSet(li->head, it);
                     delete(li, iteratorGet(it));
-                    it->node = NULL;
+                    iteratorSet(NULL,it);
                 }
         }
 
