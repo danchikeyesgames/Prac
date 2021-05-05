@@ -60,7 +60,8 @@ int main(void)
                     delete(li, iteratorGet(it));
                     iteratorSet(NULL,it);
                 }
-        }
+        } else
+            printf("No correct Format");
 
         node = iteratorGet(it);
 
