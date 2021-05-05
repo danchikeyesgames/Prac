@@ -107,8 +107,8 @@ int main(void)
 vector *vector_created(int index, int stolb) {
     vector *num_vec_1; 
     num_vec_1 = (vector*) malloc(sizeof(vector));
-    num_vec_1->array = (int*) malloc(stolb * index * sizeof(int));
-    num_vec_1->count = stolb * index;
+    num_vec_1->count = 1;
+    num_vec_1->array = (int*) malloc(sizeof(int));
     for (int i = 0; i < num_vec_1->count; i++)
         num_vec_1->array[i] = -1;
     return num_vec_1;
@@ -120,6 +120,12 @@ void vector_saved(vector *num_vec_1, vector *num_vec_2, int index, int stolb) {
         for (j = 1; j <= stolb; j++) {
             scanf("%d", &num);
             if (num != 0) {
+                num_vec_1->count += 1;
+                num_vec_2->count += 1;
+                num_vec_1->array = (int*) realloc(num_vec_1->array, sizeof(int) * num_vec_1->count);
+                num_vec_1->array[num_vec_1->count - 1] = -1;
+                num_vec_2->array = (int*) realloc(num_vec_2->array, sizeof(int) * num_vec_2->count);
+                num_vec_2->array[num_vec_1->count - 1] = -1;
                 num_vec_1->array[n] = (i - 1) * stolb + j - 1;
                 num_vec_2->array[n] = num;
                 n++;
@@ -160,6 +166,12 @@ void vector_saved_file(vector *num_vec_1, vector *num_vec_2, int index, int stol
         for (j = 1; j <= stolb; j++) {
             fscanf(file, "%d", &num);
             if (num != 0) {
+                num_vec_1->count += 1;
+                num_vec_2->count += 1;
+                num_vec_1->array = (int*) realloc(num_vec_1->array, sizeof(int) * num_vec_1->count);
+                num_vec_1->array[num_vec_1->count - 1] = -1;
+                num_vec_2->array = (int*) realloc(num_vec_2->array, sizeof(int) * num_vec_2->count);
+                num_vec_2->array[num_vec_1->count - 1] = -1;
                 num_vec_1->array[n] = (i - 1) * stolb + j - 1;
                 num_vec_2->array[n] = num;
                 n++;
@@ -201,6 +213,10 @@ void vector_multiplex(vector *num1, vector *integer1, vector *num2, vector *inte
             }
 
             if (sum != 0) {
+                num3->count += 1;
+                integer3->count += 1;
+                num3->array = (int*) realloc(num3->array, sizeof(int) * num3->count);
+                integer3->array = (int*) realloc(integer3->array, sizeof(int) * integer3->count);
                 num3->array[p] = (i - 1) * m3 + j - 1;
                 integer3->array[p] = sum;
                 p++;
@@ -209,6 +225,8 @@ void vector_multiplex(vector *num1, vector *integer1, vector *num2, vector *inte
             sum = 0;
         }
     }
+    num3->array[num3->count - 1] = -1;
+    integer3->array[integer3->count - 1] = -1; 
     printf("New Matrix:\n");
     vector_print(num3, integer3, n3, m3);
 }
