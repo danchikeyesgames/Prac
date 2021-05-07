@@ -225,8 +225,26 @@ void vector_multiplex(vector *num1, vector *integer1, vector *num2, vector *inte
             sum = 0;
         }
     }
+    _Bool iSdiag = 0;
     num3->array[num3->count - 1] = -1;
     integer3->array[integer3->count - 1] = -1; 
     printf("New Matrix:\n");
     vector_print(num3, integer3, n3, m3);
+    if (n3 == m3)
+        for (i  = 0; i < num3->count - 1; i++) {
+            if (num3->array[i] == i * m3 + i) {
+                iSdiag = 1;
+            }
+            else {
+                iSdiag = 0;
+                break;
+            }
+        } 
+    else 
+        iSdiag = 0;
+
+    if (iSdiag)
+        printf("Yes\n");
+    else
+        printf("No\n");
 }
