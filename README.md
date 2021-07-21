@@ -1,4 +1,4 @@
-# MAI Study I cource #2 sem
+# MAI Study I course #2 sem
 ![alt-текст](https://upload.wikimedia.org/wikipedia/ru/f/f0/Emblem_of_Moscow_Aviation_Institute.svg "MAI")
 ---
 - __lab 21 ->__ _Написать утилиту на баш скрипте, которая имитирует утилиту split_  :heavy_check_mark:
