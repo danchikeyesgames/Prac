@@ -1,6 +1,6 @@
 # MAI Study course
 ![MAI](https://upload.wikimedia.org/wikipedia/ru/f/f0/Emblem_of_Moscow_Aviation_Institute.svg)
-**Скат лабораторных на обучение в МАИ ♥️**
+**Скат лаб на обучение в МАИ ♥️**
 ## I sem
 ```
 lab5   ✅ -> Написать программу на МТ, которое реализует задание соответствующее варианту
