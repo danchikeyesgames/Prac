@@ -17,5 +17,5 @@ KP2    🟥 ->
 KP3    🟥 -> 
 KP4    🟥 -> 
 ```
- - [x] in process
- - [ ] finish
+ - [x] `in process`
+ - [ ] `finish`
