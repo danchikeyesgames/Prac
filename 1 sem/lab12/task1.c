@@ -10,19 +10,18 @@ int main(void)
     int k = 0, count = 0;
 
     while ((k = scanf("%lld", &num)) > 0) {
+        count = 0;
         for (long long i = num; i > 0; i /= 10)                        
             count++;
 
         if (count < 2) {
             printf("%lld\n", num);
-            count = 0;
             continue;
         }
         count = count - count / 2;
         num = delnum(count, num);
 
         printf("%lld\n", num);
-        count = 0;
     }
 
     if (k == 0)
