@@ -17,7 +17,9 @@ int main(void)
     for (int i = 0; i < n; i++) {
         k = 0;
         for (int j = 0; j < n; j++) {
-            outmatrix[i][j] = matrix[i][0] * matrix[k][0] + matrix[i][1] * matrix[k][1] + matrix[i][2] * matrix[k][2];
+            for (int z = 0; z < n; z++) {
+                outmatrix[i][j] = outmatrix[i][j] + matrix[i][z] * matrix[k][z];
+            }
             k++;
         }
     }
