@@ -14,12 +14,15 @@ int main(void)
         for (int j = 0; j < n; j++)
             scanf("%d", &matrix[i][j]);
 
+    for (int i = 0; i < n; i++)
+        for (int j = 0; j < n; j++)
+            outmatrix[i][j] = 0;
+
     for (int i = 0; i < n; i++) {
         k = 0;
         for (int j = 0; j < n; j++) {
-            for (int z = 0; z < n; z++) {
+            for (int z = 0; z < n; z++)
                 outmatrix[i][j] = outmatrix[i][j] + matrix[i][z] * matrix[k][z];
-            }
             k++;
         }
     }
