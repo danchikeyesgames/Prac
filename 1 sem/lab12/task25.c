@@ -6,22 +6,28 @@ int main(void)
 {
     int num = 0, tmpnum = 0, fig, result = 0, i = 0;
 
-    scanf("%d", &num);
-    tmpnum = num;
 
-    while (tmpnum) {
-        fig = tmpnum % 10;
-        if (!(fig % 2))
-            fig--;
-        
-        result = result + fig * pow(10, i);
+    
+    while (scanf("%d", &num) != EOF) {
+        tmpnum = num;
+        while (tmpnum) {
+            fig = tmpnum % 10;
+            if (!(fig % 2)) {
+                if (fig == 0)
+                    fig = 9;
+                else
+                    fig--;
+            }
+            result = result + fig * pow(10, i);
 
-        tmpnum /= 10;
-        i++;
+            tmpnum /= 10;
+            i++;
+        }
+
+        printf("%d\n", result);
+        result = 0, i = 0;
     }
-
-    printf("%d\n", result);
-
+    
     return 0;
 }
 
