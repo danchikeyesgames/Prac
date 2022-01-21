@@ -18,7 +18,7 @@ int main(void)
         x = 0;
         y = n - 1;
         nd = 2 * y + 1;
-        for (int i = 0, l = 1, m = 0; i < nd; i++) {
+        for (int i = 0, l = 1, m = 0; i < nd; i++ % 2 == 0 ? m++ : l++) {
             while (i % 2 == 0 ? y != 0 : y != n - 1) {
                 printf("%d ", matrix[y][x]);
                 y += dir[i % 2];
@@ -27,11 +27,6 @@ int main(void)
             printf("%d ", matrix[y][x]);
             x += dir[(i + 1) % 2] * m;
             y += dir[(i + 1) % 2] * l;
-
-            if (i % 2 == 0)
-                m++;
-            else
-                l++;
         }
         putchar('\n');
     }
