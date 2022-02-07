@@ -11,9 +11,9 @@ typedef struct tree {
 } node;
 
 node*   CreateTree(int value);
-node*   InsertTree(node * root, int value);
-void    DeleteTree(node * root, int data);
-void    PrintTree(node * root);
-int     AmountVertex(node * root);
+node*   InsertTree(node* root, int value);
+void    DeleteTree(node* root);
+void    PrintTree(node* root);
+int     AmountVertex(node* root);
 
 #endif
