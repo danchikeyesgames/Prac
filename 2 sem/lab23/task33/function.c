@@ -2,6 +2,7 @@
 
 static node* FindNode(node* root, int key);
 static node* FindNextItem(node* _node);
+static node* FindParent(node*, int);
 
 node * CreateTree(int value) {
     node * tmp = (node *) malloc(sizeof(node));
@@ -67,8 +68,8 @@ int AmountVertex(node* root) {
 }
 
 void DeleteNode(node* root, int key) {
-    node* parent = root;
-    node* _node = FindNode(parent, key);
+    node* _node = FindNode(root, key);
+    node* parent = FindParent(root, key);
     node* tmp = NULL;
     node* next_node = NULL;
     int value = 0;
@@ -78,20 +79,20 @@ void DeleteNode(node* root, int key) {
         return;
     }
 
-    // if (parent == _node) {
-    //     printf("Root %d remove from tree\n", root->key);
-    //     free(root);
-    //     if (root)
-    //         root = NULL;
-    // }
+    if (parent == NULL && _node->left == _node->right) {
+        printf("Root %d remove from tree\n", root->key);
+        free(root);
+        if (root)
+            root = NULL;
+    }
 
     // 1: lists
     else if (!_node->left && !_node->right) {
         printf("Node %d remove from tree\n", _node->key);
-        if (parent->left->key == key) {
+        if (parent->key > key) {
             free(_node);
             parent->left = NULL;
-        } else if (parent->right->key == key) {
+        } else if (parent->key < key) {
             free(_node);
             parent->right = NULL;
         }
@@ -133,20 +134,31 @@ void DeleteNode(node* root, int key) {
 
 static node * FindNode(node* root, int key) {
     node * tmp = root;
-    node * parent = NULL;
 
-    while (tmp != NULL) {
-        parent = tmp;
-        if (key == tmp->key)
-            break;
-        else if (key > tmp->key)
+    while (tmp != NULL && tmp->key != key) {
+        if (key > tmp->key)
             tmp = tmp->right;
         else if (key < tmp->key)
             tmp = tmp->left;
     }
 
-    root = parent;
     return tmp;
+}
+
+static node* FindParent(node* root, int key) {
+    node * tmp = root;
+    node * parent = NULL;
+
+    while (tmp != NULL && tmp->key != key) {
+        parent = tmp;
+
+        if (key > tmp->key)
+            tmp = tmp->right;
+        else if (key < tmp->key)
+            tmp = tmp->left;
+    }
+
+    return parent;
 }
 
 static node * FindNextItem(node* _node) {
