@@ -18,17 +18,17 @@ node * InsertTree(node* root, int value) {
         parent = tmp;
         if (value == tmp->key)
             break;
-        else if (value > tmp->key)
-            tmp = tmp->right;
-        else if (value < tmp->key)
+        else if (tmp->key > value)
             tmp = tmp->left;
+        else if (tmp->key < value)
+            tmp = tmp->right;
     }
 
     if (!tmp) {
         tmp = CreateTree(value);     
-        if (parent->key > tmp->key)
-            parent->right = tmp;
         if (parent->key < tmp->key)
+            parent->right = tmp;
+        if (parent->key > tmp->key)
             parent->left = tmp;
     }
 
@@ -36,9 +36,9 @@ node * InsertTree(node* root, int value) {
 }
 
 void PrintTree(node* root, int level) {
-    if (root) {
+    if (root != NULL) {
         PrintTree(root->right, level + 1);
-        for (int i = 0; i < level; i++) printf('\t');
+        for (int i = 0; i < level; i++) printf("\t");
         printf("%d\n", root->key);
         PrintTree(root->left, level + 1);
     }
@@ -67,7 +67,68 @@ int AmountVertex(node* root) {
 }
 
 void DeleteNode(node* root, int key) {
-    // what this?
+    node* parent = root;
+    node* _node = FindNode(parent, key);
+    node* tmp = NULL;
+    node* next_node = NULL;
+    int value = 0;
+
+    if (_node == NULL) {
+        printf("Not find this ->%d<- element\n", key);
+        return;
+    }
+
+    // if (parent == _node) {
+    //     printf("Root %d remove from tree\n", root->key);
+    //     free(root);
+    //     if (root)
+    //         root = NULL;
+    // }
+
+    // 1: lists
+    else if (!_node->left && !_node->right) {
+        printf("Node %d remove from tree\n", _node->key);
+        if (parent->left->key == key) {
+            free(_node);
+            parent->left = NULL;
+        } else if (parent->right->key == key) {
+            free(_node);
+            parent->right = NULL;
+        }
+    }
+    // 2: have one child
+    else if (_node->left && !_node->right) {
+        printf("Node %d remove from tree\n", _node->key);
+        if (parent->left->key == key) {
+            tmp = _node->left;
+            free(_node);
+            parent->left = tmp;
+        } else if (parent->right->key == key) {
+            tmp = _node->left;
+            free(_node);
+            parent->right = tmp;
+        }
+    } else if (!_node->left && _node->right) {
+        printf("Node %d remove from tree\n", _node->key);
+        if (parent->left->key == key) {
+            tmp = _node->right;
+            free(_node);
+            parent->left = tmp;
+        } else if (parent->right->key == key) {
+            tmp = _node->right;
+            free(_node);
+            parent->right = tmp;
+        }
+    }
+    // 3: have two child
+    else if (_node->left && _node->right) {
+        printf("Node %d remove from tree\n", _node->key);
+        next_node = FindNextItem(_node);
+        value = next_node->key;
+        DeleteNode(root, value);
+        _node->key = value;
+    }
+
 }
 
 static node * FindNode(node* root, int key) {
