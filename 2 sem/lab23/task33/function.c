@@ -79,6 +79,24 @@ void DeleteNode(node* root, int key) {
         return;
     }
 
+    if (parent == NULL && !_node->left && _node->right) {
+        tmp = root->right;
+        root->key = tmp->key;
+        root->right = tmp->right;
+        free(tmp);
+        if (tmp)
+            tmp = NULL;
+        return;
+    } else if (parent == NULL && _node->left && !_node->right) {
+        tmp = root->left;
+        root->key = tmp->key;
+        root->left = tmp->left;
+        free(tmp);
+        if (tmp)
+            tmp = NULL;
+        return;
+    }
+
     if (parent == NULL && _node->left == _node->right) {
         printf("Root %d remove from tree\n", root->key);
         free(root);

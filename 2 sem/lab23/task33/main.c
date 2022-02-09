@@ -25,29 +25,43 @@ int main(void)
             }
         } else if (!strncmp(command, "2", 2) || !strncmp(command, "remove", 7)) {
             scanf("%d", &value);
-            DeleteNode(tree, value);
-        } else if (!strncmp(command, "3", 2) || !strncmp(command, "print", 6))
-            PrintTree(tree, 0);
+            if (value == tree->key && tree->left == NULL && tree->right == NULL) {
+                DeleteNode(tree, value);
+                tree = NULL;
+            } else
+                DeleteNode(tree, value);
+            
+        } else if (!strncmp(command, "3", 2) || !strncmp(command, "print", 6)) {
+            if (tree != NULL)
+                PrintTree(tree, 0);
+            else
+                printf("NULL\n");
+        }
         else if (!strncmp(command, "4", 2) || !strncmp(command, "func", 5))
-            AmountVertex(tree);
-        else if (!strncmp(command, "5", 2) || !strncmp(command, "destroy", 8))
+            printf("Tree has %d vertex\n", AmountVertex(tree));
+        else if (!strncmp(command, "5", 2) || !strncmp(command, "destroy", 8)) {
             DestroyTree(tree);
+            tree = NULL;
+        }
         else
             printf("Incorrected format\n");
         
         clear();
-        PrintTree(tree, 0);
+        if (tree != NULL)
+            PrintTree(tree, 0);
+        else
+            printf("NULL\n");
         printf(" 1) add\n 2) remove\n 3) print\n 4) func\n 5) destroy\n");
         scanf("%s", command);
     }
 
     DestroyTree(tree);
-
+    tree = NULL;
     return 0;
 }
 
 static void clear() {
-    char c;
+    int c;
     
     c = getchar();
     while (c != '\n' && c != '\0')
