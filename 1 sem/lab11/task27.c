@@ -79,9 +79,9 @@ int main(void)
         printf("number11 : %d\n", num1);
     }
     if (check == 1)
-        printf("Your enter one number\n");
+        printf("You enter one number\n");
     if (!check)
-        printf("Number not find!\n");
+        printf("Number no found!\n");
 
     return 0;
 }

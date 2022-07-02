@@ -26,7 +26,7 @@ int main(void)
                     action = S01;
                 if (isalpha(sym)) {
                     tmp = 1;
-                    if (isvowel(tolower(sym))) {
+                    if (!isvowel(tolower(sym))) {
                         tmp = tmp << (tolower(sym) - 'a');
                         set += tmp;
                         bl = 1;
@@ -44,7 +44,7 @@ int main(void)
                 }
                 if (isalpha(sym)) {
                     tmp = 1;
-                    if (isvowel(tolower(sym))) {
+                    if (!isvowel(tolower(sym))) {
                         tmp = tmp << (tolower(sym) - 'a');
                         action = S02;
                         if (!(tmp & set))
