@@ -124,6 +124,7 @@ tr_vector* tr_CollectNewVector() {            // for stdin input
         vec_add_item(v, sym);
     }
 
+    return v;
 }
 
 void tr_PrintVector(tr_vector* v) {
@@ -131,6 +132,7 @@ void tr_PrintVector(tr_vector* v) {
     while ((c = vec_take_item(v)) != '\0') {
         printf("%c", c);
     }
+    printf("\n");
 }
 
 //------------static-functions---------------------

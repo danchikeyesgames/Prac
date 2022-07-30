@@ -3,7 +3,6 @@ NAMEFILES = src/TransformToTree.c src/TreeExpressions.c src/VectorTransformNumbe
 NAMEOBJECTS = obj/TransformToTree.o obj/TreeExpressions.o obj/VectorTransformNumberChar.o obj/main.o
 OFLAG=-o
 
-.PHONY : build clean
 build: start
 
 start: $(NAMEOBJECTS)
