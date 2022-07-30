@@ -13,7 +13,7 @@ static void PrintTree(tr_SymNode* node);
 
 void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
     state stat      = ONE;
-    tr_vector* v    = tr_CreateSymNode();
+    tr_vector* v    = tr_CreateSymNode();                   // vector with number make up char type
     char sym        = 0;
     int number      = 0;
     char znak       = 0;       // English??
