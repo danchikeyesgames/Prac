@@ -1,6 +1,6 @@
-#include "include/TransformToTree.h"
-#include "include/private/VectorPrivate.h"
-
+#include "../include/TransformToTree.h"
+#include "../include/private/VectorPrivate.h"
+#include "../include/private/TreeExpressions.h"
 #include <stdio.h>
 #include <ctype.h>
 
@@ -13,7 +13,7 @@ static void PrintTree(tr_SymNode* node);
 
 void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
     state stat      = ONE;
-    tr_vector* v    = tr_CreateSymNode();                   // vector with number make up char type
+    tr_vector* v    = vec_CreateVector();                   // vector with number make up char type
     char sym        = 0;
     int number      = 0;
     char znak       = 0;       // English??
@@ -124,6 +124,13 @@ tr_vector* tr_CollectNewVector() {            // for stdin input
         vec_add_item(v, sym);
     }
 
+}
+
+void tr_PrintVector(tr_vector* v) {
+    char c;
+    while ((c = vec_take_item(v)) != '\0') {
+        printf("%c", c);
+    }
 }
 
 //------------static-functions---------------------

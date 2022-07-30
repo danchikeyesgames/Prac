@@ -1,8 +1,11 @@
-#include "include/private/TreeExpressions.h"
+#include "../include/private/TreeExpressions.h"
 
 #include <ctype.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+static void clear(tr_SymNode* node);
 
 tr_SymNode* tr_CreateSymNode() {
     tr_SymNode* node = (tr_SymNode *) malloc(sizeof(tr_SymNode));
@@ -14,7 +17,7 @@ tr_SymNode* tr_CreateSymNode() {
 }
 
 void tr_SetHeadNode(tr_header* head) {
-    head->value = NULL;
+    head->start = NULL;
     head->value = 0;
 }
 

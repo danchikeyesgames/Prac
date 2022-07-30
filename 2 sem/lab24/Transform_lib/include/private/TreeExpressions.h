@@ -3,16 +3,6 @@
 
 #include "TreeExpressionHeader.h"
 
-typedef struct __ExprOfSymNode {
-    union {
-        char operand;
-        int number;
-    } value;
-    struct __ExprOfSymNode* parent;
-    struct __ExprOfSymNode* left;
-    struct __ExprOfSymNode* right;
-} tr_SymNode;                   // transformation symbol node
-
 tr_SymNode* tr_CreateSymNode();
 void        tr_SetHeadNode(tr_header* head);
 void        tr_SetNodeOperand(tr_SymNode* node, char c);

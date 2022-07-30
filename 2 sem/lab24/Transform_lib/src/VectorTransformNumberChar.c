@@ -1,4 +1,4 @@
-#include "include/private/VectorPrivate.h"
+#include "../include/private/VectorPrivate.h"
 
 #include <stdio.h>
 #include <string.h>
@@ -17,12 +17,12 @@ void vec_add_item(tr_vector* v, char c) {
         v->Item[1] = '\0';
         v->length = 2;
     } else if (strlen(v->Item) + 1 < v->length) {
-        v->Item[stren(v->Item)] = c;
+        v->Item[strlen(v->Item)] = c;
         v->Item[strlen(v->Item) + 1] = '\0';
     } else if (strlen(v->Item) + 1 == v->length) {
         v->length *= 2;
         v->Item = (char *) realloc(v->Item, sizeof(char) * v->length);
-        v->Item[stren(v->Item)] = c;
+        v->Item[strlen(v->Item)] = c;
         v->Item[strlen(v->Item) + 1] = '\0';
     }
 }
