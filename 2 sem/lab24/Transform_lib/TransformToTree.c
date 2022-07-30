@@ -9,6 +9,7 @@ typedef enum _State {
 } state;
 
 static int IsSymExp(char c);
+static void PrintTree(tr_SymNode* node);
 
 void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
     state stat      = ONE;
@@ -105,7 +106,13 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
 }
 
 void tr_OutputNormalFormat(tr_header* head) {
-
+    if (head->start) {
+        PrintTree(head->start->left);
+        printf(" %c ", head->start->value.operand);
+        PrintTree(head->start->right);
+    } else {
+        printf("-\n");
+    }
 }
 
 tr_vector* tr_CollectNewVector() {            // for stdin input
@@ -131,4 +138,16 @@ static int IsSymExp(char c) {
     } else if (c == '*' || c == '/' || c == '=' || c == '-' || c == '+' || c == '(' || c == ')') {
         return 1;
     }
+}
+
+static void PrintTree(tr_SymNode* node) {
+    if (node->left) PrintTree(node->left);
+
+    if (node->left == NULL || node->right == NULL) {
+        printf(" %d ", node->value.number);
+    } else {
+        printf(" %c ", node->value.operand);
+    }
+
+    if (node->right) PrintTree(node->right);
 }
