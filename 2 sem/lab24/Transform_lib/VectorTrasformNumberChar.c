@@ -34,6 +34,13 @@ void vec_delete_item(tr_vector* v, int i) {
     }
 }
 
+char vec_take_item(tr_vector* v) {
+    char c = v->Item[0];
+    vec_delete_item(v, 0);
+
+    return c;
+}
+
 int vec_ToInt(const tr_vector* v) {
     int num = atoi(v->Item);
     return num;

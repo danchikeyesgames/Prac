@@ -6,6 +6,9 @@
 
 tr_SymNode* tr_CreateSymNode() {
     tr_SymNode* node = (tr_SymNode *) malloc(sizeof(tr_SymNode));
+    node->parent = NULL;
+    node->left  = NULL;
+    node->right = NULL;
 
     return node; 
 }

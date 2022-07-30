@@ -1,7 +1,8 @@
 #include "include/TransformToTree.h"
 #include "include/private/VectorPrivate.h"
 
-// #include <stdio.h>
+#include <stdio.h>
+#include <ctype.h>
 
 typedef enum _State {
     ONE, TWO, THREE, FOUR, FIVE
@@ -10,10 +11,104 @@ typedef enum _State {
 static int IsSymExp(char c);
 
 void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
+    state stat      = ONE;
+    tr_vector* v    = tr_CreateSymNode();
+    char sym        = 0;
+    int number      = 0;
+    char znak       = 0;       // English??
+    char alpha_sym  = 0;
+    tr_SymNode* CurrentNode = head->start;
+
+    sym = vec_take_item(input);
+    while (sym != '\0') {
+        switch(stat) {
+            case ONE:
+                if (IsSymExp(sym)) {
+                    if (isdigit(sym)) {
+                        vec_add_item(v, sym);
+                        stat = TWO;
+                    } else if (isalpha(sym)) {
+                        alpha_sym = sym;
+                        stat = THREE;
+                    }
+                } else if (sym = ' ') {
+                    break;
+                } else {
+                    printf("Incorrected format\npls use alpha & digit & symbols of +, =, -, *, /.\n");
+                    return;
+                }
+                break;
+            case TWO:
+                if (isdigit(sym)) {
+                    vec_add_item(v, sym);
+                } else if (IsSymExp(sym)) {
+                    znak = sym;
+                    stat = FOUR;
+                    continue;
+                }
+                break;
+            case THREE:
+                if (IsSymExp(sym)) {
+                    znak = sym;
+                    stat = FIVE;
+                    continue;
+                }
+                break;
+            case FOUR:
+                tr_SymNode* NewNodeZnak = tr_CreateSymNode();
+                tr_SymNode* NewNodeNum = tr_CreateSymNode();
+
+                number = vec_ToInt(v);
+                vec_StringClear(v);
+                tr_SetNodeOperand(NewNodeZnak, znak);
+                tr_SetNodenumber(NewNodeNum, number);
+                
+                if (CurrentNode == NULL) {
+                    head->start = NewNodeZnak;
+                    NewNodeZnak->left = NewNodeNum;
+                    NewNodeNum->parent = NewNodeZnak;
+                    CurrentNode = head->start;
+                    stat = ONE;
+                } else {
+                    if (znak == '*' || znak == '/') {
+                        tr_InsertRightExpr(NewNodeZnak, CurrentNode);
+                        CurrentNode = NewNodeZnak;
+                        CurrentNode->left = NewNodeNum;
+                        NewNodeNum->parent = CurrentNode;
+                        stat = ONE;
+                    } else if (znak == '+' || znak == '-') {
+                        CurrentNode->right = NewNodeNum;
+                        NewNodeNum->parent = CurrentNode;
+                        tr_InsertUpSide(NewNodeZnak, head->start);
+                        CurrentNode = head->start;
+                        stat = ONE;
+                    }
+                }
+
+
+                break;
+
+            case FIVE:
+                break;
+        }
+        sym = vec_take_item(input);
+    }
+
+    if (stat == TWO) {
+        tr_SymNode* NewNode = tr_CreateSymNode();
+        number = vec_ToInt(v);
+        vec_ClearVec(v);
+        tr_SetNodenumber(NewNode, number);
+        CurrentNode->right = NewNode;
+        NewNode->parent = CurrentNode;
+    }
+}
+
+void tr_OutputNormalFormat(tr_header* head) {
 
 }
 
-tr_vector* tr_CollectNewVector() {            // for sdtin input
+tr_vector* tr_CollectNewVector() {            // for stdin input
     tr_vector* v = vec_CreateVector();
     char sym = 0;
     // state stat = ONE;
@@ -29,5 +124,11 @@ tr_vector* tr_CollectNewVector() {            // for sdtin input
 //+++++++++++++++++++++++++++++++++++++++++++++++++
 
 static int IsSymExp(char c) {
-
+    if (isdigit(c)) {
+        return 1;
+    } else if (isalpha(c)) {
+        return 1;
+    } else if (c == '*' || c == '/' || c == '=' || c == '-' || c == '+' || c == '(' || c == ')') {
+        return 1;
+    }
 }
