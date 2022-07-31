@@ -48,6 +48,7 @@ int vec_ToInt(const tr_vector* v) {
 
 void vec_StringClear(tr_vector* v) {
     free(v->Item);
+    v->length = 0;
     v->Item = NULL;
 }
 

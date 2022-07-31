@@ -16,4 +16,7 @@ typedef struct __Head_ExpressionTree {
     unsigned int value;
 } tr_header;
 
+void        tr_SetHeadNode(tr_header* head);
+void        tr_ClearTree(tr_header* head);
+
 #endif

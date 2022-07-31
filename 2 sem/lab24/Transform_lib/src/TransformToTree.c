@@ -21,7 +21,9 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
     tr_SymNode* CurrentNode = head->start;
 
     sym = vec_take_item(input);
+    printf("%d - %c\n", sym, sym);
     while (sym != '\0') {
+        printf("%d - %c\n", sym, sym);
         switch(stat) {
             case ONE:
                 if (IsSymExp(sym)) {
@@ -81,7 +83,8 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
                         CurrentNode->right = NewNodeNum;
                         NewNodeNum->parent = CurrentNode;
                         tr_InsertUpSide(NewNodeZnak, head->start);
-                        CurrentNode = head->start;
+                        head->start = NewNodeZnak;
+                        CurrentNode = NewNodeZnak;
                         stat = ONE;
                     }
                 }
@@ -113,6 +116,7 @@ void tr_OutputNormalFormat(tr_header* head) {
     } else {
         printf("-\n");
     }
+    printf("\n");
 }
 
 tr_vector* tr_CollectNewVector() {            // for stdin input
@@ -133,6 +137,11 @@ void tr_PrintVector(tr_vector* v) {
         printf("%c", c);
     }
     printf("\n");
+}
+
+void tr_ClearVector(tr_vector* v, unsigned int type) {
+    if (type == 0) vec_StringClear(v);
+    else if (type == 1) vec_ClearVec(v);
 }
 
 //------------static-functions---------------------
