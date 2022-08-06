@@ -10,6 +10,7 @@ typedef enum _State {
 
 static int IsSymExp(char c);
 static void PrintTree(tr_SymNode* node);
+static void Print_Tree_Format(tr_SymNode* head, int i);
 
 void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
     state stat      = ONE;
@@ -21,9 +22,7 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
     tr_SymNode* CurrentNode = head->start;
 
     sym = vec_take_item(input);
-    printf("%d - %c\n", sym, sym);
     while (sym != '\0') {
-        printf("%d - %c\n", sym, sym);
         switch(stat) {
             case ONE:
                 if (IsSymExp(sym)) {
@@ -119,6 +118,10 @@ void tr_OutputNormalFormat(tr_header* head) {
     printf("\n");
 }
 
+void tr_PrintTreeFormat(tr_header* head) {
+    Print_Tree_Format(head->start, 0);
+}
+
 tr_vector* tr_CollectNewVector() {            // for stdin input
     tr_vector* v = vec_CreateVector();
     char sym = 0;
@@ -168,4 +171,23 @@ static void PrintTree(tr_SymNode* node) {
     }
 
     if (node->right) PrintTree(node->right);
+}
+
+static void Print_Tree_Format(tr_SymNode* head, int i) {
+    if (head->right != NULL) {
+        Print_Tree_Format(head->right, i + 1);
+    }
+    
+    for (int j = 0; j < i; j++) {
+        printf("\t");
+    }
+    if (head->left == NULL || head->right == NULL) {
+        printf("%d\n", head->value.number);
+    } else {
+        printf("%c\n", head->value.operand);
+    }
+    
+    if (head->left != NULL) {
+        Print_Tree_Format(head->left, i + 1);
+    }
 }

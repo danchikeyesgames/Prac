@@ -23,5 +23,8 @@ obj/VectorTransformNumberChar.o: obj src/VectorTransformNumberChar.c
 obj/main.o: obj src/main.c
 	$(CC) -c src/main.c -o obj/main.o
 
+run:
+	./start
+
 clean:
-	rm -rf obj
+	rm -rf obj start
