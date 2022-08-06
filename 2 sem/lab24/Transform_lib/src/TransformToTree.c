@@ -60,6 +60,8 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
                 tr_SymNode* NewNodeZnak = tr_CreateSymNode();
                 tr_SymNode* NewNodeNum = tr_CreateSymNode();
 
+                // printf("Length: %d\n", v->length);
+                // tr_PrintVector(v);
                 number = vec_ToInt(v);
                 vec_StringClear(v);
                 tr_SetNodeOperand(NewNodeZnak, znak);
@@ -87,8 +89,6 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
                         stat = ONE;
                     }
                 }
-
-
                 break;
 
             case FIVE:
@@ -110,7 +110,7 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
 void tr_OutputNormalFormat(tr_header* head) {
     if (head->start) {
         PrintTree(head->start->left);
-        printf(" %c ", head->start->value.operand);
+        printf("%c ", head->start->value.operand);
         PrintTree(head->start->right);
     } else {
         printf("-\n");
@@ -136,13 +136,15 @@ tr_vector* tr_CollectNewVector() {            // for stdin input
 
 void tr_PrintVector(tr_vector* v) {
     char c;
-    while ((c = vec_take_item(v)) != '\0') {
+    int i = 0;
+    while ((c = v->Item[i]) != '\0') {
         printf("%c", c);
+        ++i;
     }
     printf("\n");
 }
 
-void tr_ClearVector(tr_vector* v, unsigned int type) {
+void tr_ClearVector(tr_vector* v, unsigned int type) {            // type = 0 => clear only string in heap | type = 1 => destroy vector 
     if (type == 0) vec_StringClear(v);
     else if (type == 1) vec_ClearVec(v);
 }
@@ -165,9 +167,9 @@ static void PrintTree(tr_SymNode* node) {
     if (node->left) PrintTree(node->left);
 
     if (node->left == NULL || node->right == NULL) {
-        printf(" %d ", node->value.number);
+        printf("%d ", node->value.number);
     } else {
-        printf(" %c ", node->value.operand);
+        printf("%c ", node->value.operand);
     }
 
     if (node->right) PrintTree(node->right);
