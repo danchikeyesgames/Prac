@@ -92,6 +92,34 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
                 break;
 
             case FIVE:
+                tr_SymNode* NewNodeZnakF = tr_CreateSymNode();
+                tr_SymNode* NewNode = tr_CreateSymNode();
+
+                tr_SetNodeOperand(NewNodeZnakF, znak);
+                tr_SetNodeSymbol(NewNode, alpha_sym);
+                
+                if (CurrentNode == NULL) {
+                    head->start = NewNodeZnakF;
+                    NewNodeZnakF->left = NewNode;
+                    NewNode->parent = NewNodeZnakF;
+                    CurrentNode = head->start;
+                    stat = ONE;
+                } else {
+                    if (znak == '*' || znak == '/') {
+                        tr_InsertRightExpr(NewNodeZnakF, CurrentNode);
+                        CurrentNode = NewNodeZnakF;
+                        CurrentNode->left = NewNode;
+                        NewNode->parent = CurrentNode;
+                        stat = ONE;
+                    } else if (znak == '+' || znak == '-') {
+                        CurrentNode->right = NewNode;
+                        NewNode->parent = CurrentNode;
+                        tr_InsertUpSide(NewNodeZnakF, head->start);
+                        head->start = NewNodeZnakF;
+                        CurrentNode = NewNodeZnakF;
+                        stat = ONE;
+                    }
+                }
                 break;
         }
         sym = vec_take_item(input);
@@ -102,6 +130,11 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
         number = vec_ToInt(v);
         vec_ClearVec(v);
         tr_SetNodenumber(NewNode, number);
+        CurrentNode->right = NewNode;
+        NewNode->parent = CurrentNode;
+    } else if (stat == THREE) {
+        tr_SymNode* NewNode = tr_CreateSymNode();
+        tr_SetNodeSymbol(NewNode, alpha_sym);
         CurrentNode->right = NewNode;
         NewNode->parent = CurrentNode;
     }
@@ -167,7 +200,8 @@ static void PrintTree(tr_SymNode* node) {
     if (node->left) PrintTree(node->left);
 
     if (node->left == NULL || node->right == NULL) {
-        printf("%d ", node->value.number);
+        if (node->flag == 0) printf("%d ", node->value.number);
+        if (node->flag) printf("%c ", node->value.operand);
     } else {
         printf("%c ", node->value.operand);
     }
@@ -184,7 +218,8 @@ static void Print_Tree_Format(tr_SymNode* head, int i) {
         printf("\t");
     }
     if (head->left == NULL || head->right == NULL) {
-        printf("%d\n", head->value.number);
+        if (head->flag == 0) printf("%d\n", head->value.number);
+        else printf("%c\n", head->value.operand);
     } else {
         printf("%c\n", head->value.operand);
     }

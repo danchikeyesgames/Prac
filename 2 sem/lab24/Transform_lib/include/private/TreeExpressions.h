@@ -8,6 +8,7 @@ typedef struct __ExprOfSymNode {
         char operand;
         int number;
     } value;
+    unsigned int flag;          // type 0 - number, 1 - symbol, 2 - operand
     struct __ExprOfSymNode* parent;
     struct __ExprOfSymNode* left;
     struct __ExprOfSymNode* right;
@@ -16,6 +17,7 @@ typedef struct __ExprOfSymNode {
 tr_SymNode* tr_CreateSymNode();
 void        tr_SetNodeOperand(tr_SymNode* node, char c);
 void        tr_SetNodenumber(tr_SymNode* node, int num);
+void        tr_SetNodeSymbol(tr_SymNode* node, char c);
 // void        tr_InsertLeftSide(tr_SymNode* InsertNode, tr_SymNode* CurrentNode);
 // void        tr_InsertRightSide(tr_SymNode* InsertNode, tr_SymNode* CurrentNode);
 tr_SymNode* tr_InsertUpSide(tr_SymNode* InsertNode, tr_SymNode* CurrentNode);

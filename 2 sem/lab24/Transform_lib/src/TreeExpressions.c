@@ -23,10 +23,17 @@ void tr_SetHeadNode(tr_header* head) {
 
 void tr_SetNodeOperand(tr_SymNode* node, char c) {
     node->value.operand = c;
+    node->flag = 2;
+}
+
+void tr_SetNodeSymbol(tr_SymNode* node, char c) {
+    node->value.operand = c;
+    node->flag = 1;
 }
 
 void tr_SetNodenumber(tr_SymNode* node, int num) {
     node->value.number = num;
+    node->flag = 0;
 }
 
 tr_SymNode* tr_InsertUpSide(tr_SymNode* InsertNode, tr_SymNode* CurrentNode) {
