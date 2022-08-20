@@ -71,16 +71,15 @@ void tr_CreateTransformedTree(tr_vector* input, tr_header* head) {
                 
                 if (CurrentNode == NULL) {
                     head->start = NewNodeSign;
-                    NewNodeSign->left = NewNodeNum;
-                    NewNodeNum->parent = NewNodeSign;
                     CurrentNode = head->start;
+                    tr_InsertLeftside(NewNodeNum, CurrentNode);
+                    
                     stat = ONE;
                 } else {
                     if (sign == '*' || sign == '/') {
                         tr_InsertRightExpr(NewNodeSign, CurrentNode);
                         CurrentNode = NewNodeSign;
-                        CurrentNode->left = NewNodeNum;
-                        NewNodeNum->parent = CurrentNode;
+                        tr_InsertLeftside(NewNodeNum, CurrentNode);
                         stat = ONE;
                     } else if (sign == '+' || sign == '-') {
                         CurrentNode->right = NewNodeNum;
@@ -88,6 +87,7 @@ void tr_CreateTransformedTree(tr_vector* input, tr_header* head) {
                         tr_InsertUpSide(NewNodeSign, head->start);
                         head->start = NewNodeSign;
                         CurrentNode = NewNodeSign;
+
                         stat = ONE;
                     }
                 }
@@ -102,16 +102,15 @@ void tr_CreateTransformedTree(tr_vector* input, tr_header* head) {
                 
                 if (CurrentNode == NULL) {
                     head->start = NewNodeSign;
-                    NewNodeSign->left = NewNodeSym;
-                    NewNodeSym->parent = NewNodeSign;
                     CurrentNode = head->start;
+                    tr_InsertLeftside(NewNodeSym, CurrentNode);
+
                     stat = ONE;
                 } else {
                     if (sign == '*' || sign == '/') {
                         tr_InsertRightExpr(NewNodeSign, CurrentNode);
                         CurrentNode = NewNodeSign;
-                        CurrentNode->left = NewNodeSym;
-                        NewNodeSym->parent = CurrentNode;
+                        tr_InsertLeftside(NewNodeSym, CurrentNode);
                         stat = ONE;
                     } else if (sign == '+' || sign == '-') {
                         CurrentNode->right = NewNodeSym;
