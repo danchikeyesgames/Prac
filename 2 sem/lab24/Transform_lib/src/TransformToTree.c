@@ -77,23 +77,18 @@ void tr_CreateTransformedTree(tr_vector* input, tr_header* head) {
                     stat = ONE;
                 } else {
                     if (sign == '*' || sign == '/') {
-                        tr_InsertRightExpr(NewNodeSign, CurrentNode);
-                        CurrentNode = NewNodeSign;
+                        CurrentNode = tr_InsertRightExpr(NewNodeSign, CurrentNode);
                         tr_InsertLeftSide(NewNodeNum, CurrentNode);
                         stat = ONE;
                     } else if (sign == '+' || sign == '-') {
                         tr_InsertRightExpr(NewNodeNum, CurrentNode);
-                        // CurrentNode->right = NewNodeNum;
-                        // NewNodeNum->parent = CurrentNode;
-                        tr_InsertUpSide(NewNodeSign, head->start);
-                        head->start = NewNodeSign;
-                        CurrentNode = NewNodeSign;
+                        CurrentNode = tr_InsertUpSide(NewNodeSign, head->start);
+                        head->start = CurrentNode;
 
                         stat = ONE;
                     }
                 }
                 break;
-
             case FIVE:
                 NewNodeSign = tr_CreateSymNode();
                 NewNodeSym  = tr_CreateSymNode();
@@ -109,16 +104,13 @@ void tr_CreateTransformedTree(tr_vector* input, tr_header* head) {
                     stat = ONE;
                 } else {
                     if (sign == '*' || sign == '/') {
-                        tr_InsertRightExpr(NewNodeSign, CurrentNode);
-                        CurrentNode = NewNodeSign;
+                        CurrentNode = tr_InsertRightExpr(NewNodeSign, CurrentNode);
                         tr_InsertLeftSide(NewNodeSym, CurrentNode);
                         stat = ONE;
                     } else if (sign == '+' || sign == '-') {
-                        CurrentNode->right = NewNodeSym;
-                        NewNodeSym->parent = CurrentNode;
-                        tr_InsertUpSide(NewNodeSign, head->start);
-                        head->start = NewNodeSign;
-                        CurrentNode = NewNodeSign;
+                        tr_InsertRightExpr(NewNodeSym, CurrentNode);
+                        CurrentNode = tr_InsertUpSide(NewNodeSign, head->start);
+                        head->start = CurrentNode;
                         stat = ONE;
                     }
                 }
