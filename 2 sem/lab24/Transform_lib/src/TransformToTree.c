@@ -12,17 +12,21 @@ static int IsSymExp(char c);
 static void PrintTree(tr_SymNode* node);
 static void Print_Tree_Format(tr_SymNode* head, int i);
 
-void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
+void tr_CreateTransformedTree(tr_vector* input, tr_header* head) {
     state stat      = ONE;
     tr_vector* v    = vec_CreateVector();                   // vector with number make up char type
     char sym        = 0;
-    int number      = 0;
-    char znak       = 0;       // English??
+    int  number     = 0;
+    char sign       = 0;       // sign symbol from string
     char alpha_sym  = 0;
     tr_SymNode* CurrentNode = head->start;
 
     sym = vec_take_item(input);
     while (sym != '\0') {
+        tr_SymNode* NewNodeSign = NULL;
+        tr_SymNode* NewNodeNum  = NULL;
+        tr_SymNode* NewNodeSym  = NULL;
+
         switch(stat) {
             case ONE:
                 if (IsSymExp(sym)) {
@@ -44,79 +48,77 @@ void tr_CreateTransformedTree(tr_vector* input, int max, tr_header* head) {
                 if (isdigit(sym)) {
                     vec_add_item(v, sym);
                 } else if (IsSymExp(sym)) {
-                    znak = sym;
+                    sign = sym;
                     stat = FOUR;
                     continue;
                 }
                 break;
             case THREE:
                 if (IsSymExp(sym)) {
-                    znak = sym;
+                    sign = sym;
                     stat = FIVE;
                     continue;
                 }
                 break;
             case FOUR:
-                tr_SymNode* NewNodeZnak = tr_CreateSymNode();
-                tr_SymNode* NewNodeNum = tr_CreateSymNode();
+                NewNodeSign = tr_CreateSymNode();
+                NewNodeNum  = tr_CreateSymNode();
 
-                // printf("Length: %d\n", v->length);
-                // tr_PrintVector(v);
                 number = vec_ToInt(v);
                 vec_StringClear(v);
-                tr_SetNodeOperand(NewNodeZnak, znak);
+                tr_SetNodeOperand(NewNodeSign, sign);
                 tr_SetNodenumber(NewNodeNum, number);
                 
                 if (CurrentNode == NULL) {
-                    head->start = NewNodeZnak;
-                    NewNodeZnak->left = NewNodeNum;
-                    NewNodeNum->parent = NewNodeZnak;
+                    head->start = NewNodeSign;
+                    NewNodeSign->left = NewNodeNum;
+                    NewNodeNum->parent = NewNodeSign;
                     CurrentNode = head->start;
                     stat = ONE;
                 } else {
-                    if (znak == '*' || znak == '/') {
-                        tr_InsertRightExpr(NewNodeZnak, CurrentNode);
-                        CurrentNode = NewNodeZnak;
+                    if (sign == '*' || sign == '/') {
+                        tr_InsertRightExpr(NewNodeSign, CurrentNode);
+                        CurrentNode = NewNodeSign;
                         CurrentNode->left = NewNodeNum;
                         NewNodeNum->parent = CurrentNode;
                         stat = ONE;
-                    } else if (znak == '+' || znak == '-') {
+                    } else if (sign == '+' || sign == '-') {
                         CurrentNode->right = NewNodeNum;
                         NewNodeNum->parent = CurrentNode;
-                        tr_InsertUpSide(NewNodeZnak, head->start);
-                        head->start = NewNodeZnak;
-                        CurrentNode = NewNodeZnak;
+                        tr_InsertUpSide(NewNodeSign, head->start);
+                        head->start = NewNodeSign;
+                        CurrentNode = NewNodeSign;
                         stat = ONE;
                     }
                 }
                 break;
 
             case FIVE:
-                tr_SymNode* NewNodeZnakF = tr_CreateSymNode();
-                tr_SymNode* NewNode = tr_CreateSymNode();
+                NewNodeSign = tr_CreateSymNode();
+                NewNodeSym  = tr_CreateSymNode();
 
-                tr_SetNodeOperand(NewNodeZnakF, znak);
-                tr_SetNodeSymbol(NewNode, alpha_sym);
+                tr_SetNodeOperand(NewNodeSign, sign);
+                tr_SetNodeSymbol(NewNodeSym, alpha_sym);
                 
                 if (CurrentNode == NULL) {
-                    head->start = NewNodeZnakF;
-                    NewNodeZnakF->left = NewNode;
-                    NewNode->parent = NewNodeZnakF;
+                    head->start = NewNodeSign;
+                    NewNodeSign->left = NewNodeSym;
+                    NewNodeSym->parent = NewNodeSign;
                     CurrentNode = head->start;
                     stat = ONE;
                 } else {
-                    if (znak == '*' || znak == '/') {
-                        tr_InsertRightExpr(NewNodeZnakF, CurrentNode);
-                        CurrentNode = NewNodeZnakF;
-                        CurrentNode->left = NewNode;
-                        NewNode->parent = CurrentNode;
+                    if (sign == '*' || sign == '/') {
+                        tr_InsertRightExpr(NewNodeSign, CurrentNode);
+                        CurrentNode = NewNodeSign;
+                        CurrentNode->left = NewNodeSym;
+                        NewNodeSym->parent = CurrentNode;
                         stat = ONE;
-                    } else if (znak == '+' || znak == '-') {
-                        CurrentNode->right = NewNode;
-                        NewNode->parent = CurrentNode;
-                        tr_InsertUpSide(NewNodeZnakF, head->start);
-                        head->start = NewNodeZnakF;
-                        CurrentNode = NewNodeZnakF;
+                    } else if (sign == '+' || sign == '-') {
+                        CurrentNode->right = NewNodeSym;
+                        NewNodeSym->parent = CurrentNode;
+                        tr_InsertUpSide(NewNodeSign, head->start);
+                        head->start = NewNodeSign;
+                        CurrentNode = NewNodeSign;
                         stat = ONE;
                     }
                 }
@@ -155,6 +157,7 @@ void tr_PrintTreeFormat(tr_header* head) {
     Print_Tree_Format(head->start, 0);
 }
 
+// Collect new vector of char from stdin
 tr_vector* tr_CollectNewVector() {            // for stdin input
     tr_vector* v = vec_CreateVector();
     char sym = 0;
@@ -177,7 +180,8 @@ void tr_PrintVector(tr_vector* v) {
     printf("\n");
 }
 
-void tr_ClearVector(tr_vector* v, unsigned int type) {            // type = 0 => clear only string in heap | type = 1 => destroy vector 
+// type = 0 => clear only string in heap || type = 1 => destroy vector
+void tr_ClearVector(tr_vector* v, unsigned int type) {   
     if (type == 0) vec_StringClear(v);
     else if (type == 1) vec_ClearVec(v);
 }

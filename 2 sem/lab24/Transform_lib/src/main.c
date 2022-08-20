@@ -9,7 +9,7 @@ int main(void) {
     tr_SetHeadNode(&tree);
     string = tr_CollectNewVector();
     // tr_PrintVector(string);
-    tr_CreateTransformedTree(string, string->length, &tree);
+    tr_CreateTransformedTree(string, &tree);
     tr_OutputNormalFormat(&tree);
     tr_PrintTreeFormat(&tree);
 
