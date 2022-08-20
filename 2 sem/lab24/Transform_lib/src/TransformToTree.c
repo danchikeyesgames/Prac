@@ -161,7 +161,6 @@ void tr_PrintTreeFormat(tr_header* head) {
 tr_vector* tr_CollectNewVector() {            // for stdin input
     tr_vector* v = vec_CreateVector();
     char sym = 0;
-    // state stat = ONE;
 
     while ((sym = getchar()) != '\n') {
         vec_add_item(v, sym);
