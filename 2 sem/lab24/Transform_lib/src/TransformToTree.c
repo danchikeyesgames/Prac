@@ -72,18 +72,19 @@ void tr_CreateTransformedTree(tr_vector* input, tr_header* head) {
                 if (CurrentNode == NULL) {
                     head->start = NewNodeSign;
                     CurrentNode = head->start;
-                    tr_InsertLeftside(NewNodeNum, CurrentNode);
+                    tr_InsertLeftSide(NewNodeNum, CurrentNode);
                     
                     stat = ONE;
                 } else {
                     if (sign == '*' || sign == '/') {
                         tr_InsertRightExpr(NewNodeSign, CurrentNode);
                         CurrentNode = NewNodeSign;
-                        tr_InsertLeftside(NewNodeNum, CurrentNode);
+                        tr_InsertLeftSide(NewNodeNum, CurrentNode);
                         stat = ONE;
                     } else if (sign == '+' || sign == '-') {
-                        CurrentNode->right = NewNodeNum;
-                        NewNodeNum->parent = CurrentNode;
+                        tr_InsertRightExpr(NewNodeNum, CurrentNode);
+                        // CurrentNode->right = NewNodeNum;
+                        // NewNodeNum->parent = CurrentNode;
                         tr_InsertUpSide(NewNodeSign, head->start);
                         head->start = NewNodeSign;
                         CurrentNode = NewNodeSign;
@@ -103,14 +104,14 @@ void tr_CreateTransformedTree(tr_vector* input, tr_header* head) {
                 if (CurrentNode == NULL) {
                     head->start = NewNodeSign;
                     CurrentNode = head->start;
-                    tr_InsertLeftside(NewNodeSym, CurrentNode);
+                    tr_InsertLeftSide(NewNodeSym, CurrentNode);
 
                     stat = ONE;
                 } else {
                     if (sign == '*' || sign == '/') {
                         tr_InsertRightExpr(NewNodeSign, CurrentNode);
                         CurrentNode = NewNodeSign;
-                        tr_InsertLeftside(NewNodeSym, CurrentNode);
+                        tr_InsertLeftSide(NewNodeSym, CurrentNode);
                         stat = ONE;
                     } else if (sign == '+' || sign == '-') {
                         CurrentNode->right = NewNodeSym;

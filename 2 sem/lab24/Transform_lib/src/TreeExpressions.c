@@ -36,7 +36,7 @@ void tr_SetNodenumber(tr_SymNode* node, int num) {
     node->flag = 0;
 }
 
-void tr_InsertLeftside(tr_SymNode* InsertNode, tr_SymNode* CurrentNode) {
+void tr_InsertLeftSide(tr_SymNode* InsertNode, tr_SymNode* CurrentNode) {
     CurrentNode->left = InsertNode;
     InsertNode->parent = CurrentNode;
 }
