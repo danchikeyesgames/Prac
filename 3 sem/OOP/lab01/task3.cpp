@@ -15,6 +15,13 @@ class Rational {
         friend Rational operator*(const Rational& rat1, const Rational& rat2);
         friend Rational operator/(const Rational& rat1, const Rational& rat2);
         friend std::ostream& operator<<(std::ostream& out, const Rational& rat);
+        friend std::istream& operator>>(std::istream& in, Rational& rat);
+        friend bool operator>(const Rational& rat1, const Rational& rat2);
+        friend bool operator<(const Rational& rat1, const Rational& rat2);
+        friend bool operator<=(const Rational& rat1, const Rational& rat2);
+        friend bool operator>=(const Rational& rat1, const Rational& rat2);
+        friend bool operator==(const Rational& rat1, const Rational& rat2);
+        friend bool operator!=(const Rational& rat1, const Rational& rat2);
     private:
         long int numerator;
         long int denominator;
@@ -31,6 +38,22 @@ int main() {
     std::cout << "-: " << num1 - num2 << std::endl;
     std::cout << "*: " << num1 * num2 << std::endl;
     std::cout << "/: " << num1 / num2 << std::endl;
+
+    if (num1 == num2) {
+        std::cout << num1 << " " << num2 << "eq\n"; 
+    }
+
+    if (num1 <= num3) {
+        std::cout << num1 << " " << num3 << "!eq\n"; 
+    }
+
+    if (num1 > num3) {
+        std::cout << num1 << " " << num3 << ">\n"; 
+    }
+
+    if (num1 >= num2) {
+        std::cout << num1 << " " << num2 << "eq or >\n"; 
+    }
 
     return 0;
 }
@@ -72,6 +95,36 @@ Rational operator/(const Rational& rat1, const Rational& rat2) {
 std::ostream& operator<<(std::ostream& out, const Rational& rat) {
     out << rat.numerator << "/" << rat.denominator;
     return out;
+}
+
+std::istream& operator>>(std::istream& in, Rational& rat) {
+    in >> rat.numerator;
+    in >> rat.denominator;
+    return in;
+}
+
+bool operator>(const Rational& rat1, const Rational& rat2) {
+    return (rat1 - rat2).numerator > 0;
+}
+
+bool operator>=(const Rational& rat1, const Rational& rat2) {
+    return (rat1 - rat2).numerator >= 0;
+}
+
+bool operator<(const Rational& rat1, const Rational& rat2) {
+    return !(rat1 >= rat2);
+}
+
+bool operator<=(const Rational& rat1, const Rational& rat2) {
+    return !(rat1 > rat2);
+}
+
+bool operator==(const Rational& rat1, const Rational& rat2) {
+    return (rat1 - rat2).numerator == 0;
+}
+
+bool operator!=(const Rational& rat1, const Rational& rat2) {
+    return !(rat1 == rat2);
 }
 
 void Rational::reduce() {
