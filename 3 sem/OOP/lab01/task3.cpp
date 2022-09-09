@@ -40,19 +40,19 @@ int main() {
     std::cout << "/: " << num1 / num2 << std::endl;
 
     if (num1 == num2) {
-        std::cout << num1 << " " << num2 << "eq\n"; 
+        std::cout << num1 << " " << num2 << " " << "eq\n"; 
     }
 
     if (num1 <= num3) {
-        std::cout << num1 << " " << num3 << "!eq\n"; 
+        std::cout << num1 << " " << num3 << " " << "!eq\n"; 
     }
 
     if (num1 > num3) {
-        std::cout << num1 << " " << num3 << ">\n"; 
+        std::cout << num1 << " " << num3 << " " << ">\n"; 
     }
 
     if (num1 >= num2) {
-        std::cout << num1 << " " << num2 << "eq or >\n"; 
+        std::cout << num1 << " " << num2 << " " << "eq or >\n"; 
     }
 
     return 0;
