@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "vector.h"
 
@@ -7,7 +8,8 @@ vector_ptr create_vector(size_t sz) {
     new_cvec->capacity = sz;
     new_cvec->size = 0;
     new_cvec->data = (int *) malloc(sizeof(int) * sz);
- 
+    memset(new_cvec->data, 0, sizeof(int) * sz);
+
     return new_cvec;
 }
 
@@ -31,13 +33,22 @@ void vector_push_back(vector_ptr v, int value) {
 }
 
 void vector_2d_push_back(vector_2d_ptr v, vector_ptr ptr) {
-    
+    vector_ptr p;
+    int* dat;
+
     if (v->capacity <= v->size) {
         v->data = (vector_ptr *) realloc(v->data, sizeof(vector_ptr) * (v->capacity) * 2);
         v->capacity = v->capacity * 2;
     }
 
-    v->data[v->size++] = ptr;
+    p = (vector_ptr) malloc(sizeof(vector_t));
+    dat = (int *) malloc(sizeof(int) * ptr->size);
+    p->data = dat;
+    p->capacity = ptr->size;
+    p->size = ptr->size;
+    memcpy(p->data, ptr->data, sizeof(int) * ptr->size);
+
+    v->data[v->size++] = p;
 }
 
 void vector_free(vector_ptr v) {

@@ -36,6 +36,12 @@ polynom_ptr polynom_multiply(polynom_ptr v1, polynom_ptr v2) {
     return result;
 }
 
+void polynom_insert(polynom_multiply_ptr pol, vector_ptr vec) {
+    ++pol->size;
+
+    vector_2d_push_back(pol->data, vec);
+}
+
 void polynom_free(polynom_ptr p) {
     vector_free(p->data);
     free(p);

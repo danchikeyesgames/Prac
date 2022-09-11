@@ -16,6 +16,8 @@ typedef struct CpolynomMultiply {
 
 polynom_ptr polynom_create(vector_ptr v);
 polynom_ptr polynom_multiply(polynom_ptr v1, polynom_ptr v2);
-void polynom_free(polynom_ptr p);
+void        polynom_insert(polynom_multiply_ptr pol, vector_ptr vec);
+void        polynom_free(polynom_ptr p);
+
 
 #endif    // __POLYNOMIALS_H__
