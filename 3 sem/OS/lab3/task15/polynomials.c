@@ -22,34 +22,16 @@ polynom_ptr polynom_multiply(polynom_ptr v1, polynom_ptr v2) {
     int szheight = v1->size + v2->size - 1;
     polynom_ptr result = malloc(sizeof(polynom_t));
 
-    int** res = (int **) malloc(sizeof(int *) * szheight);
-    for (int i = 0; i < szheight; ++i) {
-        res[i] = (int *) malloc(sizeof(int) * szwidth);
-        memset(res[i], 0, sizeof(int) * szwidth);
-    }
-
+    result->data = create_vector(szheight);
     for (int i = 0; i < szwidth; ++i) {
         for (int j = 0; j < v2->size; ++j) {
-            res[i + j][i] = v1->data->data[i] * v2->data->data[j];
+            result->data->data[i + j] += v1->data->data[i] * v2->data->data[j];
         }
     }
 
     result->size = szheight;
-    result->data = create_vector(szheight);
     result->data->capacity = szheight;
     result->data->size = szheight;
-
-    for (int j = 0; j < szheight; ++j) {
-        result->data->data[j] = 0;
-        for (int i = 0; i < szwidth; ++i) {
-            result->data->data[j] += res[j][i]; 
-        }
-    }
-
-    for (int i = 0; i < szheight; ++i) {
-        free(res[i]);
-    }
-    free(res);
 
     return result;
 }
