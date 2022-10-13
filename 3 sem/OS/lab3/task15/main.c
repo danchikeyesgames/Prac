@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <pthread.h>
 
 #include "polynomials.h"
 
@@ -11,68 +12,74 @@ typedef struct CPolynomArg {
     size_t finish;
 } polynom_arg_t, *polynom_arg_ptr;
 
+static unsigned int count_threads = 1;
+static unsigned int num_thread    = 1;
+static unsigned int offset_thread = 1;
+
 void*   polynom_multiply_thread(void* pol_ptr);
-void    program_start(int n);
+int     program_read_polynoms(polynom_arg_ptr p);
 void    polynom_arg_free(polynom_arg_ptr p);
 
-// int main(int argc, char* argv[]) {
-//     vector_t* v1 = create_vector(10);
-//     vector_t* v2 = create_vector(10);
-
-//     for (int i = 1; i < 11; ++i) {
-//         vector_push_back(v1, i);
-//         vector_push_back(v2, i);
-//     }
-
-//     polynom_t* p1 = polynom_create(v1);
-//     polynom_t* p2 = polynom_create(v2);
-
-//     polynom_t* p3 = polynom_multiply(p1, p2);
-
-//     for (int i = 0; i < p3->size; ++i) {
-//         printf("%d ", p3->data->data[i]);
-//     }
-//     putchar('\n');
-
-//     polynom_free(p1);
-//     polynom_free(p2);
-//     polynom_free(p3);
-//     vector_free(v1);
-//     vector_free(v2);
-
-//     return 0;
-// }
-
 int main(void) {
-    vector_t* v1 = create_vector(MAX);
-    vector_t* v2 = create_vector(MAX);
-    polynom_multiply_ptr mp = (polynom_multiply_ptr) malloc(sizeof(polynom_multiply_t));
-    mp->size = 0;
-    mp->data = create_vector_2d(1);
+    polynom_arg_t argt;
+    pthread_t* threads_arr;
 
-    for (int i = 1; i < MAX; ++i) {
-        vector_push_back(v1, i);
-        vector_push_back(v2, i);
+    argt.vec = (polynom_multiply_ptr) malloc(sizeof(polynom_multiply_t));
+    argt.vec->size = 0;
+    argt.vec->data = create_vector_2d(1);
+
+    while (program_read_polynoms(&argt) != 1) {
+        printf("%d\n", argt.vec->size);
     }
 
-    polynom_insert(mp, v1);
-    polynom_insert(mp, v2);
+    count_threads = argt.vec->size / 2;
+    polynom_arg_ptr argth = (polynom_arg_ptr) malloc(sizeof(polynom_arg_t) * count_threads);
+    threads_arr = (pthread_t *) malloc(sizeof(pthread_t) * count_threads);
 
-    polynom_arg_t argt;
-    argt.vec = mp;
-    argt.start = 0;
-    argt.finish = 1;
+    int count_operations = 1;
 
-    polynom_multiply_thread(&argt);
+    while (count_operations * 2 < argt.vec->size) {
+        count_operations *= 2;
+    }
 
-    for (int i = 0; i < MAX + 1; ++i) {
-        printf("%d ", argt.vec->data->data[0]->data[i]);
+    argth->vec = argt.vec;
+    while (offset_thread != count_operations) {
+        argth[0].start  = 0;
+        argth[0].finish = offset_thread;
+        for (int i = 1; i < count_threads; ++i) {
+            argth[i].vec = argt.vec;
+            argth[i].start = argth[i - 1].start + 2 * offset_thread;
+            argth[i].finish = argth[i - 1].finish + 2 * offset_thread;
+        }
+
+        for (int i = 0; i < count_threads; ++i) {
+            pthread_create(&threads_arr[i], NULL, polynom_multiply_thread, &argth[i]);
+        }
+    
+        for (int i = 0; i < count_threads; ++i) {
+            pthread_join(threads_arr[i], NULL);
+        }
+
+        offset_thread *= 2;
+        count_threads /= 2;
+    }
+
+    printf("%d\n", argt.vec->size);
+    argth[0].start  = 0;
+    argth[0].finish = offset_thread;
+
+    pthread_create(&threads_arr[0], NULL, polynom_multiply_thread, &argth[0]);
+    pthread_join(threads_arr[0], NULL);
+
+    for (int i = 0; i < argth[0].vec->data->data[0]->size; ++i) {
+        printf("%d ", argth[0].vec->data->data[0]->data[i]);
     }
     printf("\n");
 
-    vector_free(v1);
-    vector_free(v2);
     polynom_arg_free(&argt);
+    free(argth);
+    free(threads_arr);
+
     return 0;
 }
 
@@ -105,6 +112,22 @@ void polynom_arg_free(polynom_arg_ptr p) {
     free(p->vec);
 }
 
-void program_start(int n) {
-    
+int program_read_polynoms(polynom_arg_ptr p) {
+    vector_t* vtmp = create_vector(MAX);
+    char c;
+    int num;
+
+    int t = scanf("%d", &num);
+    if (t > 0) 
+        vector_push_back(vtmp, num);
+    else
+        return 1;
+    while ((c = getchar()) != '\n') {
+        scanf("%d", &num);
+        vector_push_back(vtmp, num);
+    }
+
+    polynom_insert(p->vec, vtmp);
+    vector_free(vtmp);
+    return 0;
 }
