@@ -29,6 +29,16 @@ Hexagon::Hexagon(Hexagon& hex) {
     }
 }
 
+Hexagon::Hexagon(Point a, Point b, Point c, Point d, Point e, Point f) {
+    numvertex = 6;
+    new (&p[0]) Point(a);
+    new (&p[1]) Point(b);
+    new (&p[2]) Point(c);
+    new (&p[3]) Point(d);
+    new (&p[4]) Point(e);
+    new (&p[5]) Point(f);
+}
+
 size_t Hexagon::VertexNumber() {
     return (size_t) numvertex;
 }
@@ -76,8 +86,9 @@ std::ostream& operator<<(std::ostream& os, Hexagon& hex) {
     return os;
 }
 
-Hexagon& Hexagon::operator=(Hexagon& hex) {
+Hexagon& Hexagon::operator=(const Hexagon& hex) {
     numvertex = 6;
+
     for (int i = 0; i < numvertex; ++i) {
         p[i] = hex.p[i];
     }

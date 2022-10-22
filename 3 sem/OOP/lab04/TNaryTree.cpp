@@ -19,6 +19,8 @@ void TNaryTree::Update(Hexagon& polygon, const std::string& tree_path) {
         root->brother = nullptr;
         root->current_size = 0;
         root->son = nullptr;
+        new (&root->figure) Hexagon(polygon);
+        tmp = root;
     }
     
     while (tree_path[i] != '\0') {
@@ -31,10 +33,12 @@ void TNaryTree::Update(Hexagon& polygon, const std::string& tree_path) {
                 throw std::invalid_argument("Vertex doesn't exist in the path\n");
             }
 
-            tmp->son = new ItemTree;
-            tmp->son->brother = nullptr;
-            tmp->son->current_size = tmp->current_size + 1;
-            tmp->son->son = nullptr;
+            if (!tmp->son && tree_path[i + 1] == '\0') {
+                tmp->son = new ItemTree;
+                tmp->son->brother = nullptr;
+                tmp->son->current_size = tmp->current_size + 1;
+                tmp->son->son = nullptr;
+            }
 
             tmp = tmp->son;
         } else if (tree_path[i] == 'b') {
@@ -42,10 +46,12 @@ void TNaryTree::Update(Hexagon& polygon, const std::string& tree_path) {
                 throw std::invalid_argument("Vertex doesn't exist in the path\n");
             }
 
-            tmp->brother = new ItemTree;
-            tmp->brother->brother = nullptr;
-            tmp->brother->current_size = tmp->current_size;
-            tmp->brother->son = nullptr;
+            if (!tmp->brother && tree_path[i + 1] == '\0') {
+                tmp->brother = new ItemTree;
+                tmp->brother->brother = nullptr;
+                tmp->brother->current_size = tmp->current_size;
+                tmp->brother->son = nullptr;
+            }
 
             tmp = tmp->brother;
         }

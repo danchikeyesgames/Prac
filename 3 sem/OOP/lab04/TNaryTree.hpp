@@ -12,6 +12,8 @@ class TNaryTree {
             ItemTree* brother;
             Hexagon figure;
             int current_size;
+
+            ItemTree() {}
         };
 
     public:
