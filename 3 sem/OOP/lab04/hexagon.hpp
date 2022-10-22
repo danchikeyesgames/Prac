@@ -8,6 +8,7 @@
 class Hexagon : public Figure {
     public:
         Hexagon(std::istream& in);
+        Hexagon(Hexagon& hex);
         Hexagon();
         size_t  VertexNumber();
         double  Area();
@@ -18,7 +19,7 @@ class Hexagon : public Figure {
     
     public:
         friend std::istream& operator>>(std::istream& is, Hexagon& hex);
-        friend std::istream& operator<<(std::ostream& os, Hexagon& hex);
+        friend std::ostream& operator<<(std::ostream& os, Hexagon& hex);
         Hexagon& operator=(Hexagon& hex);
         bool operator==(Hexagon& hex);
 };

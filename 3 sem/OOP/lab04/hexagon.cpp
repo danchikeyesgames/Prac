@@ -22,6 +22,13 @@ Hexagon::Hexagon() {
     }
 }
 
+Hexagon::Hexagon(Hexagon& hex) {
+    numvertex = 6;
+    for (int i = 0; i < numvertex; ++i) {
+        p[i] = hex.p[i];
+    }
+}
+
 size_t Hexagon::VertexNumber() {
     return (size_t) numvertex;
 }
@@ -57,18 +64,25 @@ std::istream& operator>>(std::istream& is, Hexagon& hex) {
 
         new (&(hex.p[i])) Point(x, y);
     }
+
+    return is;
 }
 
-std::istream& operator<<(std::ostream& os, Hexagon& hex) {
+std::ostream& operator<<(std::ostream& os, Hexagon& hex) {
     os << "Hexagon:\n";
     for (int i = 0; i < hex.numvertex; ++i)
         os << "( " << hex.p[i].GetX() << ", " << hex.p[i].GetY() << " )\n";
+
+    return os;
 }
 
 Hexagon& Hexagon::operator=(Hexagon& hex) {
+    numvertex = 6;
     for (int i = 0; i < numvertex; ++i) {
         p[i] = hex.p[i];
     }
+
+    return *this;
 }
 
 bool Hexagon::operator==(Hexagon& hex) {

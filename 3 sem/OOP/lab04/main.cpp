@@ -1,28 +1,25 @@
 #include <iostream>
 
 #include "hexagon.hpp"
-#include "triangle.hpp"
-#include "octagon.hpp"
+#include "TNaryTree.hpp"
 
 int main() {
-    std::cout << "Hexagon:\n";
-    Hexagon hex(std::cin);
-    std::cout << "Area: " << (double) hex.Area()  << "\n";
-    std::cout << "NumVertex: " << hex.VertexNumber() << "\n";
+    TNaryTree tree;
+    Hexagon hex;
 
-    std::cout << "Octagon:\n";
-    Octagon oct(std::cin);
-    std::cout << "Area: " << (double) oct.Area()  << "\n";
-    std::cout << "NumVertex: " << oct.VertexNumber() << "\n";
+    std::cin >> hex;
+    tree.Update(hex, "");
 
-    std::cout << "Triangle:\n";
-    Triangle tri(std::cin);
-    std::cout << "Area: " << (double) tri.Area()  << "\n";
-    std::cout << "NumVertex: " << tri.VertexNumber() << "\n";
+    std::cin >> hex;
+    tree.Update(hex, "c");
 
-    hex.Print(std::cout);
-    oct.Print(std::cout);
-    tri.Print(std::cout);
+    std::cin >> hex;
+    tree.Update(hex, "cb");
+
+    std::cin >> hex;
+    tree.Update(hex, "cbb");
+
+    std::cout << tree;
 
     return 0;
 }
